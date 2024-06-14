@@ -2,11 +2,11 @@
 
 import React from "react";
 import SessionNavBar from "../_components/session/NavBar";
-import SessionSideBar from "../_components/session/SideBar";
+// import SessionSideBar from "../_components/session/SideBar";
 
 const SessionLayout = ({ children }: { children: React.ReactNode }) => {
   const navbarHeight = 78;
-  const sidebarWidth = 325;
+  // const sidebarWidth = 325;
   const containerPaddingTop = 38;
   const containerPaddingBottom = 24;
   const containerHorizontalPadding = 24;
@@ -29,7 +29,7 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
           }}
           className="tw-flex-1 tw-flex tw-justify-start"
         >
-          <div
+          {/* <div
             style={{
               position: "fixed",
               left: 24,
@@ -39,10 +39,11 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
             }}
           >
             <SessionSideBar />
-          </div>
+          </div> */}
           <div
             style={{
-              marginLeft: sidebarWidth,
+              // marginLeft: sidebarWidth,
+              marginLeft: 0,
               marginBottom: 150,
               paddingTop: pageVerticalPadding,
               paddingLeft: pageHorizontalPadding,
