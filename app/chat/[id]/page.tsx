@@ -52,7 +52,16 @@ const ChatSessionPage = () => {
       setPromptValue("");
       shallow.push({
         id: shallow.length + 1,
-        message: data?.data?.message,
+        message: data?.data?.message
+          ?.split(" ")
+          .map((word, wordIndex) => {
+            if (wordIndex === 0) {
+              return word + " ";
+            } else {
+              return word;
+            }
+          })
+          .join(" "),
         user: "BOT",
       });
       setChats(shallow);
