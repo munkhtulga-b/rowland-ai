@@ -6,6 +6,7 @@ import ChatBubble from "@/app/_components/session/chat/ChatBubble";
 import { TypeChatbotResponse, TypeChat } from "@/app/_types/chat/TypeChat";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 
 type Params = {
   id: string;
@@ -33,6 +34,7 @@ const ChatSessionPage = () => {
         id: 1,
         message: "Welcome to Rowland AI, the Right-of-Way and Land Assistant.",
         user: "BOT",
+        created_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       },
     ]);
     setIsFetching(false);
@@ -45,6 +47,7 @@ const ChatSessionPage = () => {
       id: shallow.length + 1,
       message: promptValue,
       user: "USER",
+      created_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
     });
     setChats(shallow);
     setTimeout(() => {
@@ -71,6 +74,7 @@ const ChatSessionPage = () => {
           })
           .join(" "),
         user: "BOT",
+        created_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       });
       setChats(shallow);
     }

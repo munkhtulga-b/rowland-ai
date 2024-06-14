@@ -22,4 +22,5 @@ export type TypeChat = {
   id: string | number;
   message: string;
   user: string;
+  created_at: string;
 };

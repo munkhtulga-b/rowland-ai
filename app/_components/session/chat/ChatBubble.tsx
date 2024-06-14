@@ -2,6 +2,7 @@ import { TypeChat } from "@/app/_types/chat/TypeChat";
 import { useTypewriter } from "@/app/_utils/custom-hooks";
 import Image from "next/image";
 import Markdown from "react-markdown";
+import dayjs from "dayjs";
 
 const ChatBubble = ({ chat }: { chat: TypeChat }) => {
   const generatedText = useTypewriter(chat?.message);
@@ -22,7 +23,7 @@ const ChatBubble = ({ chat }: { chat: TypeChat }) => {
         >
           <span>{chat?.user === "USER" ? "You" : "Rowland AI"}</span>
           <span className="tw-text-xs tw-text-primaryGray tw-w-fit">
-            24 Sep 11:30 PM
+            {dayjs(chat?.created_at).format("DD MMM hh:mm A")}
           </span>
         </section>
         <section className="tw-p-4 tw-rounded-2xl tw-bg-grayLight tw-relative">
