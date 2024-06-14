@@ -27,6 +27,12 @@ const SessionChatPrompt = ({
             value={promptValue}
             onChange={(e) => setPromptValue(e.target.value)}
             disabled={isSending}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !isSending) {
+                e.preventDefault();
+                sendQuestion();
+              }
+            }}
           />
           <Button
             type="primary"
