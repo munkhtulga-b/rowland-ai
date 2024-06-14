@@ -1,25 +1,24 @@
 "use client";
 
+import TypeLoginField from "@/app/_types/auth/TypeLoginField";
 import { Button, Form, Input } from "antd";
 
-type FieldType = {
-  email: string;
-  password: string;
-};
-
-const LoginForm = () => {
-  const [form] = Form.useForm<FieldType>();
-
-  const onComplete = (params: FieldType) => {
-    console.log(params);
-  };
+const LoginForm = ({
+  onLogin,
+  isLoading,
+}: {
+  // eslint-disable-next-line no-unused-vars
+  onLogin: (params: TypeLoginField) => void;
+  isLoading: boolean;
+}) => {
+  const [form] = Form.useForm<TypeLoginField>();
 
   return (
     <>
       <Form
         form={form}
         name="login-form"
-        onFinish={onComplete}
+        onFinish={onLogin}
         layout="vertical"
         requiredMark={false}
         validateTrigger="onSubmit"
@@ -54,7 +53,12 @@ const LoginForm = () => {
         </section>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="tw-w-full">
+          <Button
+            loading={isLoading}
+            type="primary"
+            htmlType="submit"
+            className="tw-w-full"
+          >
             Log in
           </Button>
         </Form.Item>
