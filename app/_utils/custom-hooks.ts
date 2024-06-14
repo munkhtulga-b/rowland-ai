@@ -11,6 +11,10 @@ export const useTypewriter = (text: string) => {
         i++;
       } else {
         clearInterval(typingInterval);
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "smooth",
+        });
       }
     }, 50);
 
