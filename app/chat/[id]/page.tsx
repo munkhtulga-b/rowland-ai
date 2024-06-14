@@ -15,7 +15,8 @@ const ChatSessionPage = () => {
   const params = useParams<Params>();
   const { id } = params;
 
-  const sidebarWidth = 325;
+  // const sidebarWidth = 325;
+  const sidebarWidth = 0;
   const pageHorizontalPadding = 40;
   const containerHorizontalPadding = 24;
 
