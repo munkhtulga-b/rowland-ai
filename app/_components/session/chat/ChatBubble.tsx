@@ -3,6 +3,7 @@ import { useTypewriter } from "@/app/_utils/custom-hooks";
 import Image from "next/image";
 import Markdown from "react-markdown";
 import dayjs from "dayjs";
+import "katex/dist/katex.min.css";
 
 const ChatBubble = ({ chat }: { chat: TypeChat }) => {
   const generatedText = useTypewriter(chat?.message);
