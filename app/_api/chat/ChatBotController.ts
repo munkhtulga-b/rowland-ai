@@ -8,7 +8,7 @@ export const prompt = async (question: string, sessionId: string) => {
   formData.append("question", question);
   formData.append("session_id", sessionId);
 
-  return await fetch("http://35.239.38.16:8080/chat_bot", {
+  return await fetch("https://api.rowland.ai/chat", {
     method: "POST",
     body: formData,
   });
