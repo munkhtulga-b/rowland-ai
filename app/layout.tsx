@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AppProvider from "./_provider/AppProvider";
 
 const fontFamily = Manrope({
@@ -36,6 +38,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={fontFamily.className}>
         <AntdRegistry>
+          <ToastContainer />
           <AppProvider fontFamily={fontFamily}>{children}</AppProvider>
         </AntdRegistry>
       </body>

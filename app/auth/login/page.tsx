@@ -7,6 +7,7 @@ import _ from "lodash";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const accounts: TypeLoginAccount[] = [
   {
@@ -18,6 +19,11 @@ const accounts: TypeLoginAccount[] = [
     id: 2,
     email: "testuser@mirai.mn",
     password: "Mirai!12345",
+  },
+  {
+    id: 3,
+    email: "demo@rowland.ai",
+    password: "demo@1234",
   },
 ];
 
@@ -33,6 +39,7 @@ const LoginPage = () => {
       );
     });
     if (matched) {
+      Cookies.set("session", "true");
       setTimeout(() => {
         router.push("/chat/ecc0f9a9-2d3c-41e8-ab6e-561689af5705");
         setIsLoading(false);
