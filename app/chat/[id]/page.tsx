@@ -28,6 +28,13 @@ const ChatSessionPage = () => {
   const [promptValue, setPromptValue] = useState("");
 
   useEffect(() => {
+    setChats([
+      {
+        id: 1,
+        message: "Welcome to Rowland AI, the Right-of-Way and Land Assistant.",
+        user: "BOT",
+      },
+    ]);
     setIsFetching(false);
     console.log(id);
   }, []);
