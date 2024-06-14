@@ -2,9 +2,13 @@ import React from "react";
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 import AppProvider from "./_provider/AppProvider";
 
-const fontFamily = Manrope({ subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] });
+const fontFamily = Manrope({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_APP_TITLE || "Rowland AI",
@@ -31,9 +35,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={fontFamily.className}>
-        <AppProvider fontFamily={fontFamily}>
-          {children}
-        </AppProvider>
+        <AntdRegistry>
+          <AppProvider fontFamily={fontFamily}>{children}</AppProvider>
+        </AntdRegistry>
       </body>
     </html>
   );
