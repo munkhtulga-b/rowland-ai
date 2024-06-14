@@ -43,6 +43,7 @@ const AppProvider = ({
               controlHeight: 60,
               borderRadius: 99,
               fontSize: 18,
+              borderColorDisabled: colors.colorFormItemBg,
             },
           },
         }}

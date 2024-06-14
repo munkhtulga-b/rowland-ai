@@ -35,8 +35,14 @@ const SessionChatPrompt = ({
             }}
           />
           <Button
+            disabled={!promptValue?.length}
             type="primary"
-            style={{ width: 67, height: 67, borderRadius: 8 }}
+            style={{
+              width: 67,
+              height: 67,
+              borderRadius: 8,
+              backgroundColor: !promptValue?.length ? "#F4F5F6" : "",
+            }}
             onClick={sendQuestion}
           >
             {!isSending ? (

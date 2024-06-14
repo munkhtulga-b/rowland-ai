@@ -4,9 +4,12 @@ export const prompt = async (question: string, sessionId: string) => {
     question: question,
   };
 
-  return await fetch("https://api.rowland.ai/v1/chat", {
+  return await fetch("http://192.168.1.12:4000/v1/chat", {
     method: "POST",
     body: JSON.stringify(body),
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 };
 
