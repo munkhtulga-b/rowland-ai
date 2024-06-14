@@ -1,16 +1,12 @@
 export const prompt = async (question: string, sessionId: string) => {
-  const formData = new FormData();
-  formData.append("uri", "bolt://35.239.38.16:7687");
-  formData.append("password", "abcd1234");
-  formData.append("userName", "neo4j");
-  formData.append("database", "neo4j");
-  formData.append("model", "OpenAI GPT 4o");
-  formData.append("question", question);
-  formData.append("session_id", sessionId);
+  const body = {
+    session_id: sessionId,
+    question: question,
+  };
 
   return await fetch("https://api.rowland.ai/chat", {
     method: "POST",
-    body: formData,
+    body: JSON.stringify(body),
   });
 };
 
