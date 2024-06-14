@@ -4,7 +4,7 @@ export const prompt = async (question: string, sessionId: string) => {
     question: question,
   };
 
-  return await fetch("https://api.rowland.ai/chat", {
+  return await fetch("https://api.rowland.ai/v1/chat", {
     method: "POST",
     body: JSON.stringify(body),
   });
