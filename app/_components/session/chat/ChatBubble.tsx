@@ -2,11 +2,16 @@ import { TypeChat } from "@/app/_types/chat/TypeChat";
 import { useTypewriter } from "@/app/_utils/custom-hooks";
 import Image from "next/image";
 import Markdown from "react-markdown";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 import dayjs from "dayjs";
 import "katex/dist/katex.min.css";
 
+import "katex/dist/katex.min.css";
+import { preprocessLaTeX } from "@/app/_utils/helpers";
+
 const ChatBubble = ({ chat }: { chat: TypeChat }) => {
-  const generatedText = useTypewriter(chat?.message);
+  const generatedText = useTypewriter(preprocessLaTeX(chat?.message));
 
   return (
     <>
@@ -46,7 +51,13 @@ const ChatBubble = ({ chat }: { chat: TypeChat }) => {
           {chat?.user === "USER" ? (
             <p className="tw-text-base">{chat?.message}</p>
           ) : (
-            <Markdown className={"tw-text-base"}>{generatedText}</Markdown>
+            <Markdown
+              // eslint-disable-next-line react/no-children-prop
+              children={generatedText}
+              remarkPlugins={[remarkMath]}
+              rehypePlugins={[rehypeKatex]}
+              className={"tw-text-base"}
+            />
           )}
         </section>
       </div>
