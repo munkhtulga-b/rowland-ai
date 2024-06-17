@@ -21,7 +21,7 @@ const SessionChatPrompt = ({
       <div className="tw-flex tw-flex-col tw-gap-6 tw-pb-6 tw-bg-white tw-z-[999]">
         <section className="tw-flex tw-justify-start tw-items-end tw-gap-2">
           <TextArea
-            placeholder="Ask questions, or type ‘/’ for commands"
+            placeholder="{ Ask questions to Rowland AI }"
             autoSize={{ minRows: 1, maxRows: 6 }}
             style={{ flex: 1, fontSize: 18 }}
             value={promptValue}
