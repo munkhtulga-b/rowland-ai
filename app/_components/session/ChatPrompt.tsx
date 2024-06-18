@@ -47,7 +47,7 @@ const SessionChatPrompt = ({
             }}
           />
           <Button
-            disabled={!/\S/.test(promptValue)}
+            disabled={!/\S/.test(promptValue) || isSending}
             type="primary"
             style={{
               width: 67,
