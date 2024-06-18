@@ -9,10 +9,6 @@ export const useTypewriter = (text: string) => {
       if (i < text.split(" ").length - 1) {
         setDisplayText((prevText) => prevText + " " + text.split(" ")[i]);
         i++;
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: "smooth",
-        });
       } else {
         window.scrollTo({
           top: document.documentElement.scrollHeight,
@@ -20,7 +16,7 @@ export const useTypewriter = (text: string) => {
         });
         clearInterval(typingInterval);
       }
-    }, 50);
+    }, 25);
 
     return () => {
       clearInterval(typingInterval);

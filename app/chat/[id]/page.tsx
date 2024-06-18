@@ -32,7 +32,8 @@ const ChatSessionPage = () => {
     setChats([
       {
         id: 1,
-        message: "Welcome to Rowland AI, the Right-of-Way and Land Assistant.",
+        message:
+          "Welcome! I’m Rowland, your A.I. assistant for Right-of-Way and Land. How can I help you?",
         user: "BOT",
         created_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       },

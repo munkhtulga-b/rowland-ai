@@ -27,7 +27,7 @@ const ChatBubble = ({ chat }: { chat: TypeChat }) => {
               : "tw-justify-start tw-ml-6"
           } tw-items-end tw-gap-2`}
         >
-          <span>{chat?.user === "USER" ? "You" : "Rowland AI"}</span>
+          <span>{chat?.user === "USER" ? "You" : "Rowland"}</span>
           <span className="tw-text-xs tw-text-primaryGray tw-w-fit">
             {dayjs(chat?.created_at).format("DD MMM hh:mm A")}
           </span>
