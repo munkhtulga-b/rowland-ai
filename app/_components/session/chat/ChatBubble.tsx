@@ -6,7 +6,6 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import dayjs from "dayjs";
 import "katex/dist/katex.min.css";
-
 import "katex/dist/katex.min.css";
 import { preprocessLaTeX } from "@/app/_utils/helpers";
 

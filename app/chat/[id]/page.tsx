@@ -7,6 +7,8 @@ import { TypeChatbotResponse, TypeChat } from "@/app/_types/chat/TypeChat";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+// import { Readable } from "readable-stream";
+// import _ from "lodash";
 
 type Params = {
   id: string;
@@ -33,7 +35,7 @@ const ChatSessionPage = () => {
       {
         id: 1,
         message:
-          "Welcome! I’m Rowland, your A.I. assistant for Right-of-Way and Land. How can I help you?",
+          "Welcome!  I'm Rowland, your AI assistant for Right-of-Way and Land. How can I help you?",
         user: "BOT",
         created_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
       },
@@ -84,6 +86,55 @@ const ChatSessionPage = () => {
       scrollToBottom();
     }, 500);
   };
+
+  // const streamChat = async () => {
+  //   const shallowChats = _.cloneDeep(chats);
+  //   shallowChats.push({
+  //     id: shallowChats.length + 1,
+  //     message: ".",
+  //     user: "BOT",
+  //     created_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+  //   });
+  //   setChats(shallowChats);
+  //   const body = {
+  //     question: promptValue,
+  //     session_id: "bec51bba-5fd9-40a3-8be7-31c235a060ec",
+  //   };
+
+  //   const urlEncodedBody = new URLSearchParams(body).toString();
+
+  //   const resp = await fetch("http://192.168.1.12:4000/v1/chat/stream", {
+  //     method: "POST",
+  //     body: urlEncodedBody,
+  //     headers: {
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //     },
+  //   });
+
+  //   if (resp.body) {
+  //     const reader = resp.body.getReader();
+  //     const newShallow = _.cloneDeep(chats);
+  //     newShallow[newShallow.length - 1].message = "";
+  //     const stream = new Readable({
+  //       async read() {
+  //         const { done, value } = await reader.read();
+  //         if (done) {
+  //           newShallow[newShallow.length - 1].message += " ";
+  //           this.push(null);
+  //         } else {
+  //           this.push(Buffer.from(value));
+  //           newShallow[newShallow.length - 1].message +=
+  //             Buffer.from(value).toString("utf-8");
+  //           setChats(newShallow);
+  //         }
+  //       },
+  //     });
+
+  //     stream.on("data", (data) => {
+  //       return data;
+  //     });
+  //   }
+  // };
 
   const scrollToBottom = () => {
     window.scrollTo({

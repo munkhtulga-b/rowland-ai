@@ -13,7 +13,7 @@ const SessionChatPrompt = ({
   promptValue: string;
   // eslint-disable-next-line no-unused-vars
   setPromptValue: (value: string) => void;
-  sendQuestion: () => void;
+  sendQuestion: () => void | Promise<void>;
   isSending: boolean;
 }) => {
   return (
@@ -21,7 +21,7 @@ const SessionChatPrompt = ({
       <div className="tw-flex tw-flex-col tw-gap-6 tw-pb-6 tw-bg-white tw-z-[999]">
         <section className="tw-flex tw-justify-start tw-items-end tw-gap-2">
           <TextArea
-            placeholder="Ask questions to Rowland AI"
+            placeholder="Ask questions to Rowland"
             autoSize={{ minRows: 1, maxRows: 6 }}
             style={{ flex: 1, fontSize: 18 }}
             value={promptValue}
@@ -72,8 +72,8 @@ const SessionChatPrompt = ({
         </section>
         <section className="tw-flex tw-justify-center">
           <p className="tw-text-base tw-text-primaryGray tw-font-medium">
-            Rowland AI can make mistakes sometimes. Please check the
-            instructions for prompting.
+            Rowland is intended to guide and inform, not provide legal advice.
+            Check important info.
           </p>
         </section>
       </div>
