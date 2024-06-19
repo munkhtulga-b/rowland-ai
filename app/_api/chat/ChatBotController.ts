@@ -13,6 +13,23 @@ export const prompt = async (question: string, sessionId: string) => {
   });
 };
 
+export const stream = async (question: string) => {
+  const body = {
+    question: question,
+    session_id: "bec51bba-5fd9-40a3-8be7-31c235a060ec",
+  };
+
+  const urlEncodedBody = new URLSearchParams(body).toString();
+
+  return await fetch("http://192.168.1.12:4000/v1/chat/stream", {
+    method: "POST",
+    body: urlEncodedBody,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
+};
+
 export const connect = async () => {
   const formData = new FormData();
   formData.append("uri", "bolt://35.239.38.16:7687");
