@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes ping {
+  0%, 100% {
+    opacity: 0;
+  }
+  49.9%, 50.1% {
+    opacity: 1;
+  }
+}
+
 body {
   font-size: 14px;
   font-weight: 400;
@@ -24,4 +33,8 @@ ul:not([class]) {
 
 li:not([class]) {
   margin: 5px 0;
+}
+
+.ping-animation {
+  animation: ping 1s infinite steps(1);
 }

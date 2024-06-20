@@ -8,13 +8,13 @@ const SessionChatPrompt = ({
   promptValue,
   setPromptValue,
   sendQuestion,
-  isSending,
+  isStreaming,
 }: {
   promptValue: string;
   // eslint-disable-next-line no-unused-vars
   setPromptValue: (value: string) => void;
   sendQuestion: () => void | Promise<void>;
-  isSending: boolean;
+  isStreaming: boolean;
 }) => {
   return (
     <>
@@ -26,7 +26,7 @@ const SessionChatPrompt = ({
             style={{ flex: 1, fontSize: 18 }}
             value={promptValue}
             onChange={(e) => setPromptValue(e.target.value)}
-            disabled={isSending}
+            disabled={isStreaming}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey && !/\S/.test(promptValue)) {
                 e.preventDefault();
@@ -34,7 +34,7 @@ const SessionChatPrompt = ({
               if (
                 e.key === "Enter" &&
                 !e.shiftKey &&
-                !isSending &&
+                !isStreaming &&
                 /\S/.test(promptValue)
               ) {
                 e.preventDefault();
@@ -47,7 +47,7 @@ const SessionChatPrompt = ({
             }}
           />
           <Button
-            disabled={!/\S/.test(promptValue) || isSending}
+            disabled={!/\S/.test(promptValue) || isStreaming}
             type="primary"
             style={{
               width: 67,
@@ -57,7 +57,7 @@ const SessionChatPrompt = ({
             }}
             onClick={sendQuestion}
           >
-            {!isSending ? (
+            {!isStreaming ? (
               <Image
                 src={"/assets/chat/send-icon.svg"}
                 alt="send-icon"
