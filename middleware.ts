@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { generateUUID } from "./app/_utils/helpers";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
@@ -17,7 +18,7 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname === "/chat"
   ) {
     return NextResponse.redirect(
-      new URL("/chat/ecc0f9a9-2d3c-41e8-ab6e-561689af5705", request.url)
+      new URL(`/chat/${generateUUID()}`, request.url)
     );
   }
 
