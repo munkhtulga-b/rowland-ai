@@ -37,7 +37,6 @@ const ChatSessionPage = () => {
       },
     ]);
     setIsFetching(false);
-    console.log(id);
   }, []);
 
   const promptChat = async () => {
@@ -80,6 +79,7 @@ const ChatSessionPage = () => {
               <ChatBubble
                 key={chat?.id}
                 chat={chat}
+                sessionId={id}
                 isStreaming={isStreaming}
                 setIsStreaming={(value: boolean) => setIsStreaming(value)}
               />

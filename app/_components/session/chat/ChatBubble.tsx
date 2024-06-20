@@ -7,25 +7,34 @@ import dayjs from "dayjs";
 import "katex/dist/katex.min.css";
 import "katex/dist/katex.min.css";
 import { preprocessLaTeX } from "@/app/_utils/helpers";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Readable } from "readable-stream";
 import { toast } from "react-toastify";
 
 const ChatBubble = ({
   chat,
+  sessionId,
   isStreaming,
   setIsStreaming,
 }: {
   chat: TypeChat;
+  sessionId: string;
   isStreaming: boolean;
   // eslint-disable-next-line no-unused-vars
   setIsStreaming: (value: boolean) => void;
 }) => {
+  const isInitialMount = useRef(true);
   const [streamMessage, setStreamMessage] = useState("");
 
   useEffect(() => {
-    if (chat.question) {
+    if (process.env.NODE_ENV !== "development") {
       streamChat();
+    } else {
+      if (isInitialMount.current === true) {
+        isInitialMount.current = false;
+      } else {
+        streamChat();
+      }
     }
   }, [chat]);
 
@@ -35,7 +44,7 @@ const ChatBubble = ({
     setIsStreaming(true);
     const body = {
       question: chat.question,
-      session_id: "bec51bba-5fd9-40a3-8be7-31c235a060ec",
+      session_id: sessionId,
     };
 
     const urlEncodedBody = new URLSearchParams(body).toString();
