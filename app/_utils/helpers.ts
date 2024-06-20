@@ -1,14 +1,19 @@
-export const preprocessLaTeX = (content: string) => {
+export const preprocessLaTeX = (content: string): string => {
+  // Escape $ symbols that are not intended for LaTeX
+  const escapedContent = content.replace(/\$/g, "\\$");
+
   // Replace block-level LaTeX delimiters \[ \] with $$ $$, non-greedy match
-  const blockProcessedContent = content.replace(
+  const blockProcessedContent = escapedContent.replace(
     /\\\[(.*?)\\\]/gs,
     (_, equation) => `$$${equation}$$`
   );
+
   // Replace inline LaTeX delimiters \( \) with $ $, non-greedy match
   const inlineProcessedContent = blockProcessedContent.replace(
     /\\\((.*?)\\\)/gs,
     (_, equation) => `$${equation}$`
   );
+
   return inlineProcessedContent;
 };
 
