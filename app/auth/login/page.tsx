@@ -26,6 +26,11 @@ const accounts: TypeLoginAccount[] = [
     email: "demo@rowland.ai",
     password: "demo@1234",
   },
+  {
+    id: 4,
+    email: "jjohnson@futureprooftech.com",
+    password: "demo@1234",
+  },
 ];
 
 const LoginPage = () => {
@@ -41,6 +46,7 @@ const LoginPage = () => {
     });
     if (matched) {
       Cookies.set("session", "true");
+      Cookies.set("user", matched.email);
       setTimeout(() => {
         router.push(`/chat/${generateUUID()}`);
         setIsLoading(false);
