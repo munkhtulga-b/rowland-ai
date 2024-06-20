@@ -66,7 +66,7 @@ const SessionChatPrompt = ({
                 style={{ width: "auto", height: "auto" }}
               />
             ) : (
-              <LoadingOutlined style={{ fontSize: 25, color: "#fff" }} />
+              <LoadingOutlined style={{ fontSize: 25, color: "#4FBA70" }} />
             )}
           </Button>
         </section>
