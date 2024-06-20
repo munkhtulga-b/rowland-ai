@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import "katex/dist/katex.min.css";
 import "katex/dist/katex.min.css";
 import { preprocessLaTeX } from "@/app/_utils/helpers";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Readable } from "readable-stream";
 import { toast } from "react-toastify";
 
@@ -21,16 +21,11 @@ const ChatBubble = ({
   // eslint-disable-next-line no-unused-vars
   setIsStreaming: (value: boolean) => void;
 }) => {
-  const isInitialMount = useRef(true);
   const [streamMessage, setStreamMessage] = useState("");
 
   useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else {
-      if (chat.question) {
-        streamChat();
-      }
+    if (chat.question) {
+      streamChat();
     }
   }, [chat]);
 
