@@ -10,6 +10,7 @@ import { preprocessLaTeX } from "@/app/_utils/helpers";
 import { useEffect, useRef, useState } from "react";
 import { Readable } from "readable-stream";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const ChatBubble = ({
   chat,
@@ -24,6 +25,7 @@ const ChatBubble = ({
   setIsStreaming: (value: boolean) => void;
 }) => {
   const isInitialMount = useRef(true);
+  const user = Cookies.get("user");
   const [streamMessage, setStreamMessage] = useState("");
 
   useEffect(() => {
@@ -107,7 +109,13 @@ const ChatBubble = ({
               : "tw-justify-start tw-ml-6"
           } tw-items-end tw-gap-2`}
         >
-          <span>{chat?.user === "USER" ? "You" : "Rowland"}</span>
+          <span>
+            {chat?.user === "USER"
+              ? user === "jjohnson@futureprooftech.com"
+                ? "Jerris"
+                : "You"
+              : "Rowland"}
+          </span>
           <span className="tw-text-xs tw-text-primaryGray tw-w-fit">
             {dayjs(chat?.created_at).format("DD MMM hh:mm A")}
           </span>
@@ -116,17 +124,38 @@ const ChatBubble = ({
           <div
             className={`tw-absolute tw-top-[-22px] ${
               chat?.user === "USER" ? "tw-right-[-22px]" : "tw-left-[-22px]"
-            } tw-bg-secondary tw-rounded-full tw-min-w-[44px] tw-max-w-[44px] tw-min-h-[44px] tw-max-h-[44px] tw-grid tw-place-items-center`}
+            } tw-bg-secondary tw-rounded-full tw-min-w-[44px] tw-max-w-[44px] tw-min-h-[44px] tw-max-h-[44px] tw-grid tw-place-items-center tw-overflow-clip`}
           >
-            <Image
-              src={`/assets/chat/${
-                chat?.user === "USER" ? "user-icon" : "rowland-ai-icon"
-              }.svg`}
-              alt="user-icon"
-              width={0}
-              height={0}
-              style={{ width: "auto", height: "auto" }}
-            />
+            {chat?.user === "USER" ? (
+              <>
+                {user === "jjohnson@futureprooftech.com" ? (
+                  <Image
+                    src="/assets/chat/jerris.jfif"
+                    alt="user-icon"
+                    width={44}
+                    height={44}
+                    unoptimized
+                    priority
+                  />
+                ) : (
+                  <Image
+                    src={`/assets/chat/user-icon.svg`}
+                    alt="user-icon"
+                    width={0}
+                    height={0}
+                    style={{ width: "auto", height: "auto" }}
+                  />
+                )}
+              </>
+            ) : (
+              <Image
+                src={`/assets/chat/rowland-ai-icon.svg`}
+                alt="user-icon"
+                width={0}
+                height={0}
+                style={{ width: "auto", height: "auto" }}
+              />
+            )}
           </div>
           {!chat.question ? (
             <p className="tw-text-base">{chat?.message}</p>

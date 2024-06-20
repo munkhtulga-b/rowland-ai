@@ -3,17 +3,12 @@
 import SessionChatPrompt from "@/app/_components/session/ChatPrompt";
 import ChatBubble from "@/app/_components/session/chat/ChatBubble";
 import { TypeChat } from "@/app/_types/chat/TypeChat";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-
-type Params = {
-  id: string;
-};
+import { generateUUID } from "@/app/_utils/helpers";
 
 const ChatSessionPage = () => {
-  const params = useParams<Params>();
-  const { id } = params;
+  const sessionId = generateUUID();
 
   // const sidebarWidth = 325;
   const sidebarWidth = 0;
@@ -79,7 +74,7 @@ const ChatSessionPage = () => {
               <ChatBubble
                 key={chat?.id}
                 chat={chat}
-                sessionId={id}
+                sessionId={sessionId}
                 isStreaming={isStreaming}
                 setIsStreaming={(value: boolean) => setIsStreaming(value)}
               />
