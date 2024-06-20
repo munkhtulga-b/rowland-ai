@@ -20,6 +20,7 @@ export type TypeChatbotResponse = {
 
 export type TypeChat = {
   id: string | number;
+  question?: string;
   message: string;
   user: string;
   created_at: string;
