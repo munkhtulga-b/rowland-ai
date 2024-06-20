@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import { generateUUID } from "@/app/_utils/helpers";
 
 const ChatSessionPage = () => {
-  const sessionId = generateUUID();
+  const [sessionId, setSessionId] = useState("");
 
   // const sidebarWidth = 325;
   const sidebarWidth = 0;
@@ -23,6 +23,7 @@ const ChatSessionPage = () => {
   const [promptValue, setPromptValue] = useState("");
 
   useEffect(() => {
+    setSessionId(generateUUID());
     setChats([
       {
         id: 1,
