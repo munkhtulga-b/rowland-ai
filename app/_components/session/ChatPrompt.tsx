@@ -18,7 +18,7 @@ const SessionChatPrompt = ({
 }) => {
   return (
     <>
-      <div className="tw-flex tw-flex-col tw-gap-6 tw-pb-6 tw-bg-white tw-z-[999]">
+      <div className="tw-flex tw-flex-col tw-gap-6 tw-pb-6 tw-bg-white tw-z-[999] tw-pt-4">
         <section className="tw-flex tw-justify-start tw-items-end tw-gap-2">
           <TextArea
             placeholder="Ask Rowland"

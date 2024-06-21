@@ -41,7 +41,8 @@ const LoginPage = () => {
     setIsLoading(true);
     const matched = _.find(accounts, (account) => {
       return (
-        account.email === params.email && account.password === params.password
+        account.email?.toLowerCase() === params.email?.toLowerCase() &&
+        account.password === params.password
       );
     });
     if (matched) {

@@ -46,7 +46,7 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
             style={{
               // marginLeft: sidebarWidth,
               marginLeft: 0,
-              marginBottom: 150,
+              marginBottom: windowWidth < 768 ? 180 : 150,
               paddingTop: pageVerticalPadding,
               paddingLeft: windowWidth < 768 ? 0 : pageHorizontalPadding,
               paddingRight: windowWidth < 768 ? 0 : pageHorizontalPadding,
