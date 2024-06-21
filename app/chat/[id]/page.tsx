@@ -6,13 +6,15 @@ import { TypeChat } from "@/app/_types/chat/TypeChat";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { generateUUID } from "@/app/_utils/helpers";
+import { useWindowWidth } from "@/app/_utils/custom-hooks";
 
 const ChatSessionPage = () => {
   const [sessionId, setSessionId] = useState("");
 
+  const windowWidth = useWindowWidth();
   // const sidebarWidth = 325;
   const sidebarWidth = 0;
-  const pageHorizontalPadding = 40;
+  const pageHorizontalPadding = windowWidth < 768 ? 0 : 40;
   const containerHorizontalPadding = 24;
 
   const [chats, setChats] = useState<TypeChat[]>([]);

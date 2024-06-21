@@ -15,7 +15,7 @@ const SessionNavBar = ({ height }: { height: number }) => {
     <>
       <nav
         style={{ height: height }}
-        className="tw-bg-secondary tw-flex tw-justify-between tw-items-center tw-px-10 tw-w-full"
+        className="tw-bg-secondary tw-flex tw-justify-between tw-items-center tw-px-6 md:tw-px-10 tw-w-full"
       >
         <Image
           src={"/logo-no-slogan.svg"}
