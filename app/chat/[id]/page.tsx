@@ -63,7 +63,10 @@ const ChatSessionPage = () => {
 
   return (
     <>
-      <div className="tw-h-full tw-flex tw-flex-col tw-gap-[30px] tw-px-[22px]">
+      <div
+        style={{ overscrollBehavior: "contain" }}
+        className="tw-h-full tw-flex tw-flex-col tw-gap-[30px] tw-px-[22px]"
+      >
         {!isFetching ? (
           <>
             {chats.map((chat) => (
