@@ -3,7 +3,7 @@ import SignupForm from "@/app/_components/auth/SignupForm";
 const SignupPage = () => {
   return (
     <>
-      <div className="tw-flex tw-flex-col tw-gap-8 tw-w-[520px]">
+      <div className="tw-flex tw-flex-col tw-gap-8 tw-max-w-[520px] tw-w-full">
         <section className="tw-flex tw-justify-center">
           <span className="tw-text-3xl tw-font-medium">Sign up</span>
         </section>

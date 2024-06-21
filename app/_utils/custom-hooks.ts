@@ -1,27 +1,20 @@
 import { useState, useEffect } from "react";
 
-export const useTypewriter = (text: string) => {
-  const [displayText, setDisplayText] = useState("");
+export const useWindowWidth = () => {
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 0
+  );
+
+  const handleResize = () => {
+    setWidth(window.innerWidth);
+  };
 
   useEffect(() => {
-    let i = 0;
-    const typingInterval = setInterval(() => {
-      if (i < text.split(" ").length - 1) {
-        setDisplayText((prevText) => prevText + " " + text.split(" ")[i]);
-        i++;
-      } else {
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: "smooth",
-        });
-        clearInterval(typingInterval);
-      }
-    }, 25);
-
+    window.addEventListener("resize", handleResize);
     return () => {
-      clearInterval(typingInterval);
+      window.removeEventListener("resize", handleResize);
     };
-  }, [text]);
+  }, []);
 
-  return displayText;
+  return width;
 };

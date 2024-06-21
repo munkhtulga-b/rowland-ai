@@ -2,9 +2,11 @@
 
 import React from "react";
 import SessionNavBar from "../_components/session/NavBar";
+import { useWindowWidth } from "../_utils/custom-hooks";
 // import SessionSideBar from "../_components/session/SideBar";
 
 const SessionLayout = ({ children }: { children: React.ReactNode }) => {
+  const windowWidth = useWindowWidth();
   const navbarHeight = 78;
   // const sidebarWidth = 325;
   const containerPaddingTop = 38;
@@ -46,8 +48,8 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
               marginLeft: 0,
               marginBottom: 150,
               paddingTop: pageVerticalPadding,
-              paddingLeft: pageHorizontalPadding,
-              paddingRight: pageHorizontalPadding,
+              paddingLeft: windowWidth < 768 ? 0 : pageHorizontalPadding,
+              paddingRight: windowWidth < 768 ? 0 : pageHorizontalPadding,
             }}
             className="tw-grow"
           >
