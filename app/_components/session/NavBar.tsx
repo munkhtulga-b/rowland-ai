@@ -26,7 +26,10 @@ const SessionNavBar = ({ height }: { height: number }) => {
           unoptimized
           priority
         />
-        <div className="tw-bg-white tw-rounded-full tw-min-w-[44px] tw-max-w-[44px] tw-min-h-[44px] tw-max-h-[44px] tw-grid tw-place-items-center tw-overflow-clip">
+        <div
+          onClick={() => Cookies.remove("session")}
+          className="tw-bg-white tw-rounded-full tw-min-w-[44px] tw-max-w-[44px] tw-min-h-[44px] tw-max-h-[44px] tw-grid tw-place-items-center tw-overflow-clip"
+        >
           <>
             {user === "jjohnson@futureprooftech.com" ? (
               <Image
