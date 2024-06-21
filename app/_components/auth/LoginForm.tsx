@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import TypeLoginField from "@/app/_types/auth/TypeLoginField";
 import { Button, Form, Input } from "antd";
 
@@ -33,6 +34,9 @@ const LoginForm = ({
               message: "Please input your Email!",
             },
           ]}
+          getValueFromEvent={(e: React.ChangeEvent<HTMLInputElement>) =>
+            e.target.value.toLowerCase().trim()
+          }
         >
           <Input placeholder="Email" />
         </Form.Item>
