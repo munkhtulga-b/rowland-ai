@@ -1,17 +1,25 @@
 "use client";
 
+import { TypeSignupRequest } from "@/app/_types/auth/TypeSignupBody";
 import { Button, Form, Input } from "antd";
+import _ from "lodash";
 
-type FieldType = {
-  email: string;
-  password: string;
-};
+interface ExtendedSignupRequest extends TypeSignupRequest {
+  confirm: string;
+}
 
-const SignupForm = () => {
-  const [form] = Form.useForm<FieldType>();
+const SignupForm = ({
+  onComplete,
+  isLoading,
+}: {
+  onComplete: (_params: TypeSignupRequest) => Promise<void>;
+  isLoading: boolean;
+}) => {
+  const [form] = Form.useForm<ExtendedSignupRequest>();
 
-  const onComplete = (params: FieldType) => {
-    console.log(params);
+  const beforeComplete = (params: ExtendedSignupRequest) => {
+    const body = _.omit(params, ["confirm"]);
+    onComplete(body);
   };
 
   return (
@@ -19,10 +27,9 @@ const SignupForm = () => {
       <Form
         form={form}
         name="signup-form"
-        onFinish={onComplete}
+        onFinish={beforeComplete}
         layout="vertical"
         requiredMark={false}
-        validateTrigger="onSubmit"
       >
         <section className="tw-flex tw-justify-start tw-gap-6">
           <Form.Item
@@ -48,7 +55,7 @@ const SignupForm = () => {
         </section>
 
         <Form.Item
-          name="company"
+          name="companyName"
           label="Company"
           rules={[{ required: true, message: "Please input your company!" }]}
           style={{ flex: 1 }}
@@ -110,7 +117,12 @@ const SignupForm = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="tw-w-full">
+          <Button
+            loading={isLoading}
+            type="primary"
+            htmlType="submit"
+            className="tw-w-full"
+          >
             Sign up
           </Button>
         </Form.Item>

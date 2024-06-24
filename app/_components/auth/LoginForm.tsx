@@ -1,18 +1,18 @@
 "use client";
 
 import React from "react";
-import TypeLoginField from "@/app/_types/auth/TypeLoginField";
 import { Button, Form, Input } from "antd";
+import { TypeLoginRequest } from "@/app/_types/auth/TypeLoginBody";
 
 const LoginForm = ({
   onLogin,
   isLoading,
 }: {
   // eslint-disable-next-line no-unused-vars
-  onLogin: (params: TypeLoginField) => void;
+  onLogin: (params: TypeLoginRequest) => void;
   isLoading: boolean;
 }) => {
-  const [form] = Form.useForm<TypeLoginField>();
+  const [form] = Form.useForm<TypeLoginRequest>();
 
   return (
     <>

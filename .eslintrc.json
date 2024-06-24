@@ -8,6 +8,13 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
     "react-hooks/exhaustive-deps": "off",
-    "no-irregular-whitespace": "off"
+    "no-irregular-whitespace": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        // "varsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_"
+      }
+    ]
   }
 }
