@@ -7,7 +7,6 @@ import type { DatePickerProps } from 'antd';
 import { useState } from "react";
 import dayjs from "dayjs";
 import { useUserStore } from '@/app/_store/user-store';
-import $api from "@/app/_api";
 import Cookies from "js-cookie";
 
 interface FilterDate {
@@ -20,7 +19,6 @@ const ExportCSVPage = () => {
     startDate: dayjs(new Date).format('YYYY-MM-DD').toString(),
     endDate: dayjs(new Date).format('YYYY-MM-DD').toString(),
   });
-  const router = useRouter();
 
   const getUser = useUserStore(state => state.getUser())
 
@@ -46,20 +44,24 @@ const ExportCSVPage = () => {
       endDate: date.endDate,
     };
 
+    const urlSearchParams = new URLSearchParams(params).toString();
+    const endpoint = process.env.NEXT_PUBLIC_BASE_API_URL;
+
+    // eslint-disable-next-line no-undef
     const requestHeaders: HeadersInit = {
       "Content-Type": "application/x-www-form-urlencoded",
     };
 
     const accessToken = Cookies.get("token");
+
     if (accessToken) {
       requestHeaders["Authorization"] = `Bearer ${accessToken}`;
     }
 
-    // const { isOk, data } = await $api.admin.exportCSV(params);
-
-    const resp = await fetch(`http://localhost:4000/v1/chat/download-csv?startDate=${params.startDate}&endDate=${params.endDate}`, {
+    const resp = await fetch(`${endpoint}chat/download-csv?${urlSearchParams}`, {
       method: 'GET',
-      headers: requestHeaders
+      headers: requestHeaders,
+      credentials: process.env.NODE_ENV === "development" ? "omit" : "include",
     });
 
     if (!resp.ok) {

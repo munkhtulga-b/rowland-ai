@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MessageOutlined, HistoryOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
+import { useRouter } from 'next/navigation'
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -20,8 +21,11 @@ const items: MenuItem[] = [
 
 const AdminSideBar = () => {
     const [current, setCurrent] = useState('history');
+    const router = useRouter();
 
     const onClick: MenuProps['onClick'] = (e) => {
+        if (e.key === 'chatbot') router.push('/chat')
+        else router.push('/admin/' + e.key)
         setCurrent(e.key);
     };
     return (
