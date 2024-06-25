@@ -6,6 +6,7 @@ import { TypeChat } from "@/app/_types/chat/TypeChat";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { generateUUID } from "@/app/_utils/helpers";
+import $api from "@/app/_api";
 
 const ChatSessionPage = () => {
   const [sessionId, setSessionId] = useState("");
@@ -18,6 +19,7 @@ const ChatSessionPage = () => {
   const [promptValue, setPromptValue] = useState("");
 
   useEffect(() => {
+    fetchHistory();
     setSessionId(generateUUID());
     setChats([
       {
@@ -29,6 +31,13 @@ const ChatSessionPage = () => {
     ]);
     setIsFetching(false);
   }, []);
+
+  const fetchHistory = async () => {
+    const { isOk, data } = await $api.user.chat.getMany();
+    if (isOk) {
+      console.log(data);
+    }
+  };
 
   const promptChat = async () => {
     const shallow = [...chats];

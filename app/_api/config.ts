@@ -1,11 +1,15 @@
-const fetchData = async (endpoint: string, method: string, body: unknown) => {
-  const baseURL = process.env.NEXT_PUBLIC_BASE_API_URL;
-  console.log(baseURL, endpoint, method, body);
+import Cookies from "js-cookie";
 
+const fetchData = async <T, U>(
+  endpoint: string,
+  method: string,
+  body?: U
+): Promise<{ isOk: boolean; status: number; data: T }> => {
+  const baseURL = process.env.NEXT_PUBLIC_BASE_API_URL;
   try {
-    const requestHeaders = {
-      "Content-Type": "application/json",
-      "X-User-Type": "0",
+    // eslint-disable-next-line no-undef
+    const requestHeaders: HeadersInit = {
+      "Content-Type": "application/x-www-form-urlencoded",
     };
 
     // eslint-disable-next-line no-undef
@@ -13,17 +17,26 @@ const fetchData = async (endpoint: string, method: string, body: unknown) => {
       method: method,
       headers: requestHeaders,
       cache: "default",
+      credentials: process.env.NODE_ENV === "development" ? "omit" : "include",
     };
 
     if (body) {
-      init["body"] = JSON.stringify(body);
+      const urlEncodedBody = new URLSearchParams(body).toString();
+      init["body"] = urlEncodedBody;
     }
 
-    const response = await fetch(`${baseURL}/${endpoint}`, init);
+    if (process.env.NODE_ENV === "development") {
+      const accessToken = Cookies.get("token");
+      if (accessToken) {
+        requestHeaders["Authorization"] = `Bearer ${accessToken}`;
+      }
+    }
+
+    const response = await fetch(`${baseURL}${endpoint}`, init);
 
     const isOk = response.ok;
     const status = response.status;
-    const data = await response.json();
+    const data = (await response.json()) as T;
 
     if (!isOk) {
       console.log("Reqest failed with status: ", status);
@@ -35,7 +48,11 @@ const fetchData = async (endpoint: string, method: string, body: unknown) => {
       data,
     };
   } catch (error) {
-    return error;
+    return {
+      isOk: false,
+      status: 500,
+      data: error as T,
+    };
   }
 };
 

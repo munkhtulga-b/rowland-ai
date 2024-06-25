@@ -1,25 +1,32 @@
 "use client";
 
 import React from "react";
-import TypeLoginField from "@/app/_types/auth/TypeLoginField";
 import { Button, Form, Input } from "antd";
+import { TypeLoginRequest } from "@/app/_types/auth/TypeLoginBody";
+import { useRouter } from "next/navigation";
 
 const LoginForm = ({
   onLogin,
   isLoading,
 }: {
   // eslint-disable-next-line no-unused-vars
-  onLogin: (params: TypeLoginField) => void;
+  onLogin: (params: TypeLoginRequest) => void;
   isLoading: boolean;
 }) => {
-  const [form] = Form.useForm<TypeLoginField>();
+  const router = useRouter();
+  const [form] = Form.useForm<TypeLoginRequest>();
+
+  const beforeComplete = (params: TypeLoginRequest) => {
+    params.email = params.email.toLowerCase().trim();
+    onLogin(params);
+  };
 
   return (
     <>
       <Form
         form={form}
         name="login-form"
-        onFinish={onLogin}
+        onFinish={beforeComplete}
         layout="vertical"
         requiredMark={false}
         validateTrigger="onSubmit"
@@ -50,8 +57,11 @@ const LoginForm = ({
             <Input.Password placeholder="Password" />
           </Form.Item>
           <div className="tw-flex tw-justify-end tw-mt-2">
-            <span className="tw-text-base tw-text-primaryGray tw-cursor-pointer">
-              Forget password?
+            <span
+              onClick={() => router.push("/auth/forgot")}
+              className="tw-text-base tw-text-primaryGray tw-cursor-pointer"
+            >
+              Forgot password?
             </span>
           </div>
         </section>
