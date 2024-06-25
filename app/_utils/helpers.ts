@@ -4,13 +4,13 @@ export const preprocessLaTeX = (content: string): string => {
 
   // Replace block-level LaTeX delimiters \[ \] with $$ $$, non-greedy match
   const blockProcessedContent = escapedContent.replace(
-    /\\\[(.*?)\\\]/gs,
+    /\\\[(.*?)\\\]/g,
     (_, equation) => `$$${equation}$$`
   );
 
   // Replace inline LaTeX delimiters \( \) with $ $, non-greedy match
   const inlineProcessedContent = blockProcessedContent.replace(
-    /\\\((.*?)\\\)/gs,
+    /\\\((.*?)\\\)/g,
     (_, equation) => `$${equation}$`
   );
 
