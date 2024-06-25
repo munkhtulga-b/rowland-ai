@@ -3,7 +3,6 @@
 import LoginForm from "@/app/_components/auth/LoginForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { generateUUID } from "@/app/_utils/helpers";
 import $api from "@/app/_api";
@@ -34,9 +33,12 @@ const LoginPage = () => {
             : _EEnumUserTypes._ADMIN
         );
       }
-      router.push(`/chat/${generateUUID()}`);
+      if (data.user.role === "USER") {
+        router.push(`/chat/${generateUUID()}`);
+      } else {
+        router.push("/admin/history");
+      }
     } else {
-      toast.error("Invalid email or password");
       setIsLoading(false);
     }
   };
