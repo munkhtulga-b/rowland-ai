@@ -53,12 +53,23 @@ const ChatBubble = ({
     const urlEncodedBody = new URLSearchParams(body).toString();
     const endpoint = process.env.NEXT_PUBLIC_BASE_API_URL;
 
+    // eslint-disable-next-line no-undef
+    const requestHeaders: HeadersInit = {
+      "Content-Type": "application/x-www-form-urlencoded",
+    };
+
+    if (process.env.NODE_ENV === "development") {
+      const accessToken = Cookies.get("token");
+      if (accessToken) {
+        requestHeaders["Authorization"] = `Bearer ${accessToken}`;
+      }
+    }
+
     const resp = await fetch(`${endpoint}chat/stream`, {
       method: "POST",
       body: urlEncodedBody,
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
+      headers: requestHeaders,
+      credentials: process.env.NODE_ENV === "development" ? "omit" : "include",
     });
 
     if (resp.body) {

@@ -16,9 +16,13 @@ const LoginPage = () => {
   const onLogin = async (params: TypeLoginRequest) => {
     setIsLoading(true);
     const { isOk, data } = await $api.auth.login(params);
-    console.log(data);
     if (isOk) {
       Cookies.set("session", "true");
+      if (process.env.NODE_ENV === "development") {
+        Cookies.set("token", data.tokens.access.token, {
+          expires: new Date(data.tokens.access.expires),
+        });
+      }
       router.push(`/chat/${generateUUID()}`);
     } else {
       toast.error("Invalid email or password");

@@ -1,6 +1,7 @@
 "use client";
 
-import { Button } from "antd";
+import { Button, Spin } from "antd";
+import { LoadingOutlined, WarningOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import $api from "@/app/_api";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -21,9 +22,9 @@ const VerifyEmailPage = () => {
     setIsLoading(true);
     const verifyToken = searchParams.get("token");
     if (verifyToken) {
-      const { isOk, data } = await $api.auth.verify(verifyToken);
+      const { isOk } = await $api.auth.verify(verifyToken);
       if (isOk) {
-        setIsSuccess(data?.message?.success);
+        setIsSuccess(true);
       }
     } else {
       router.push("/");
@@ -60,9 +61,31 @@ const VerifyEmailPage = () => {
                 </Button>
               </section>
             </>
-          ) : null}
+          ) : (
+            <>
+              <WarningOutlined style={{ fontSize: 80, color: "#838795" }} />
+              <section>
+                <p className="tw-text-lg tw-text-primaryGray tw-font-medium tw-text-center">
+                  {`Something went wrong! Please try again.`}
+                </p>
+              </section>
+              <section className="tw-w-full">
+                <Button
+                  onClick={() => router.push("/auth/login")}
+                  type="primary"
+                  className="tw-w-full"
+                >
+                  Go to login
+                </Button>
+              </section>
+            </>
+          )}
         </div>
-      ) : null}
+      ) : (
+        <div className="tw-flex tw-justify-center">
+          <Spin indicator={<LoadingOutlined style={{ fontSize: 40 }} spin />} />
+        </div>
+      )}
     </>
   );
 };

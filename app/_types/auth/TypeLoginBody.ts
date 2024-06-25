@@ -1,11 +1,20 @@
+import TypeUser from "./TypeUser";
+
 export type TypeLoginRequest = {
   email: string;
   password: string;
 };
 
 export type TypeLoginResponse = {
-  id: string;
-  email: string;
-  name: string;
-  role: string;
+  tokens: {
+    access: {
+      token: string;
+      expires: string;
+    };
+    refresh: {
+      token: string;
+      expires: string;
+    };
+  };
+  user: TypeUser;
 };
