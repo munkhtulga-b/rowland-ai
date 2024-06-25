@@ -1,12 +1,10 @@
 "use client";
 
 import { DownloadOutlined } from '@ant-design/icons';
-import { useRouter } from "next/navigation";
 import { Flex, Layout, DatePicker, Space, Button } from 'antd';
 import type { DatePickerProps } from 'antd';
 import { useState } from "react";
 import dayjs from "dayjs";
-import { useUserStore } from '@/app/_store/user-store';
 import Cookies from "js-cookie";
 
 interface FilterDate {
@@ -19,8 +17,6 @@ const ExportCSVPage = () => {
     startDate: dayjs(new Date).format('YYYY-MM-DD').toString(),
     endDate: dayjs(new Date).format('YYYY-MM-DD').toString(),
   });
-
-  const getUser = useUserStore(state => state.getUser())
 
   const onChangeStartDate: DatePickerProps['onChange'] = (date) => {
     const d = dayjs(date).format('YYYY-MM-DD').toString()
@@ -73,7 +69,7 @@ const ExportCSVPage = () => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `chat_history_${ params.startDate }_to_${ params.endDate }.csv`;
+    a.download = `chat_history_${params.startDate}_to_${params.endDate}.csv`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
