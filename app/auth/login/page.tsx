@@ -9,6 +9,7 @@ import { generateUUID } from "@/app/_utils/helpers";
 import $api from "@/app/_api";
 import { TypeLoginRequest } from "@/app/_types/auth/TypeLoginBody";
 import { useUserStore } from "@/app/_store/user-store";
+import _EEnumUserTypes from "@/app/_enums/EEnumUserTypes";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -26,6 +27,12 @@ const LoginPage = () => {
         Cookies.set("token", data.tokens.access.token, {
           expires: new Date(data.tokens.access.expires),
         });
+        Cookies.set(
+          "x-user-type",
+          data.user.role === "USER"
+            ? _EEnumUserTypes._USER
+            : _EEnumUserTypes._ADMIN
+        );
       }
       router.push(`/chat/${generateUUID()}`);
     } else {
