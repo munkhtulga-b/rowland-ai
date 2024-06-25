@@ -132,10 +132,7 @@ const ChatBubble = ({
             {dayjs(chat?.created_at).format("DD MMM hh:mm A")}
           </span>
         </section>
-        <motion.section
-          layout
-          className="tw-flex tw-flex-col tw-gap-y-4 tw-p-4 tw-rounded-2xl tw-bg-grayLight tw-relative tw-transition-all tw-duration-100"
-        >
+        <motion.section className="tw-flex tw-flex-col tw-gap-y-4 tw-p-4 tw-rounded-2xl tw-bg-grayLight tw-relative tw-transition-all tw-duration-100">
           <div
             className={`tw-absolute tw-top-[-22px] ${
               chat?.user === "USER" ? "tw-right-[-22px]" : "tw-left-[-22px]"
@@ -192,7 +189,7 @@ const ChatBubble = ({
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           transition={{ duration: 0.5 }}
-                          className="tw-flex tw-justify-between tw-items-center"
+                          className="tw-flex tw-justify-between tw-items-center tw-gap-10"
                         >
                           <section className="tw-px-[10px] tw-py-2 tw-rounded-lg tw-bg-white tw-flex tw-justify-start tw-items-center tw-gap-3">
                             <span className="tw-text-primaryGray">
@@ -204,18 +201,26 @@ const ChatBubble = ({
                                 alt="thumbs-up"
                                 width={0}
                                 height={0}
-                                style={{ width: "auto", height: "auto" }}
+                                style={{
+                                  width: "auto",
+                                  height: "auto",
+                                  cursor: "pointer",
+                                }}
                               />
                               <Image
                                 src="/assets/chat/thumb-down-outlined.svg"
                                 alt="thumbs-down"
                                 width={0}
                                 height={0}
-                                style={{ width: "auto", height: "auto" }}
+                                style={{
+                                  width: "auto",
+                                  height: "auto",
+                                  cursor: "pointer",
+                                }}
                               />
                             </div>
                           </section>
-                          <section className="tw-px-[10px] tw-py-2 tw-rounded-lg tw-bg-white tw-flex tw-justify-start tw-items-center tw-gap-2">
+                          <section className="tw-px-[10px] tw-py-2 tw-rounded-lg tw-bg-white tw-flex tw-justify-start tw-items-center tw-gap-2 tw-cursor-pointer">
                             <span>Source</span>
                             <Image
                               src="/assets/chat/arrow-right.svg"

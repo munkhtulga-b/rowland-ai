@@ -8,15 +8,19 @@ import Cookies from "js-cookie";
 import { generateUUID } from "@/app/_utils/helpers";
 import $api from "@/app/_api";
 import { TypeLoginRequest } from "@/app/_types/auth/TypeLoginBody";
+import { useUserStore } from "@/app/_store/user-store";
 
 const LoginPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  const setUser = useUserStore((state) => state.setUser);
+
   const onLogin = async (params: TypeLoginRequest) => {
     setIsLoading(true);
     const { isOk, data } = await $api.auth.login(params);
     if (isOk) {
+      setUser(data.user);
       Cookies.set("session", "true");
       if (process.env.NODE_ENV === "development") {
         Cookies.set("token", data.tokens.access.token, {

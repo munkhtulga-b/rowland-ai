@@ -1,21 +1,10 @@
 import Cookies from "js-cookie";
 
-type TypeSuccessResponse<T> = T;
-
-type TypeErrorResponse = {
-  code: number;
-  message: string;
-};
-
 const fetchData = async <T>(
   endpoint: string,
   method: string,
   body?: any
-): Promise<{
-  isOk: boolean;
-  status: number;
-  data: TypeSuccessResponse<T> | TypeErrorResponse;
-}> => {
+): Promise<{ isOk: boolean; status: number; data: T }> => {
   const baseURL = process.env.NEXT_PUBLIC_BASE_API_URL;
   try {
     // eslint-disable-next-line no-undef
@@ -47,30 +36,22 @@ const fetchData = async <T>(
 
     const isOk = response.ok;
     const status = response.status;
-    const data = await response.json();
+    const data = (await response.json()) as T;
 
     if (!isOk) {
       console.log("Reqest failed with status: ", status);
-      return {
-        isOk,
-        status,
-        data: data as TypeErrorResponse,
-      };
     }
 
     return {
       isOk,
       status,
-      data: data as TypeSuccessResponse<T>,
+      data,
     };
   } catch (error) {
     return {
       isOk: false,
       status: 500,
-      data: {
-        code: 500,
-        message: "Internal Server Error",
-      } as TypeErrorResponse,
+      data: error as T,
     };
   }
 };
