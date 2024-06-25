@@ -1,4 +1,5 @@
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const fetchData = async <T, U>(
   endpoint: string,
@@ -38,8 +39,14 @@ const fetchData = async <T, U>(
     const status = response.status;
     const data = (await response.json()) as T;
 
+    console.log(response);
+
     if (!isOk) {
-      console.log("Reqest failed with status: ", status);
+      const error = data as {
+        code: number;
+        message: string;
+      };
+      toast.error(error.message);
     }
 
     return {
