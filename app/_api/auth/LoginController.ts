@@ -4,9 +4,7 @@ import {
 } from "@/app/_types/auth/TypeLoginBody";
 import fetchData from "../config";
 
-const login = async (
-  body: TypeLoginRequest
-): Promise<{ isOk: boolean; status: number; data: TypeLoginResponse }> => {
+const login = async (body: TypeLoginRequest) => {
   return fetchData<TypeLoginResponse>("auth/login", "POST", body);
 };
 
