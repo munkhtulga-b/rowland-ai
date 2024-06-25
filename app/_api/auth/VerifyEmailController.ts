@@ -7,7 +7,7 @@ type TypeVerificationResponse = {
 };
 
 const verify = async (token: string) => {
-  return fetchData<TypeVerificationResponse>(
+  return fetchData<TypeVerificationResponse, null>(
     `auth/verify-email?token=${token}`,
     "POST"
   );

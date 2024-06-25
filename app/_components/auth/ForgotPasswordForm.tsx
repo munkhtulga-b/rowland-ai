@@ -6,12 +6,15 @@ type FieldType = {
   email: string;
 };
 
-const ForgotPasswordForm = () => {
+const ForgotPasswordForm = ({
+  onComplete,
+  isLoading,
+}: {
+  onComplete: (_params: FieldType) => Promise<void>;
+  isLoading: boolean;
+}) => {
   const [form] = Form.useForm<FieldType>();
 
-  const onComplete = (params: FieldType) => {
-    console.log(params);
-  };
   return (
     <>
       <Form
@@ -37,7 +40,12 @@ const ForgotPasswordForm = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" className="tw-w-full">
+          <Button
+            loading={isLoading}
+            type="primary"
+            htmlType="submit"
+            className="tw-w-full"
+          >
             Next
           </Button>
         </Form.Item>

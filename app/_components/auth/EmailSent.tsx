@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 const EmailSent = ({
   email,
   type,
+  message,
 }: {
   email?: string | null;
-  type: string | undefined;
+  type?: "reset" | "confirm" | undefined;
+  message?: string | undefined;
 }) => {
   const router = useRouter();
 
@@ -28,15 +30,21 @@ const EmailSent = ({
         />
         <section>
           <p className="tw-text-lg tw-text-primaryGray tw-font-medium tw-text-center">
-            {type === "reset"
-              ? `A password reset email has been sent to the registered email address
+            {!message ? (
+              <>
+                {type === "reset"
+                  ? `A password reset email has been sent to the registered email address
             (${
               email ?? "email address"
             }). Check your email and go to the password reset page
             from the link in the email.`
-              : `A confirmation email has been sent to the registered email address${
-                  email ? ` (${email})` : ""
-                }. Please check the email and access the confirmation page from the link in the text.`}
+                  : `A confirmation email has been sent to the registered email address${
+                      email ? ` (${email})` : ""
+                    }. Please check the email and access the confirmation page from the link in the text.`}
+              </>
+            ) : (
+              <>{message}</>
+            )}
           </p>
         </section>
         <section className="tw-w-full">

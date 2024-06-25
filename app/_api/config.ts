@@ -1,9 +1,9 @@
 import Cookies from "js-cookie";
 
-const fetchData = async <T>(
+const fetchData = async <T, U>(
   endpoint: string,
   method: string,
-  body?: any
+  body?: U
 ): Promise<{ isOk: boolean; status: number; data: T }> => {
   const baseURL = process.env.NEXT_PUBLIC_BASE_API_URL;
   try {

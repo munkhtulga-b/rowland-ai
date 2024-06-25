@@ -5,7 +5,11 @@ import {
 import fetchData from "../config";
 
 const register = async (body: TypeSignupRequest) => {
-  return fetchData<TypeSignupResponse>("auth/register", "POST", body);
+  return fetchData<TypeSignupResponse, TypeSignupRequest>(
+    "auth/register",
+    "POST",
+    body
+  );
 };
 
 export default register;

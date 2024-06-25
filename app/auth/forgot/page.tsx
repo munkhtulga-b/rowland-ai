@@ -1,32 +1,41 @@
 "use client";
 
+import $api from "@/app/_api";
 import EmailSent from "@/app/_components/auth/EmailSent";
 import ForgotPasswordForm from "@/app/_components/auth/ForgotPasswordForm";
-import { useEffect, useState } from "react";
+import { TypeForgotPasswordRequest } from "@/app/_types/auth/TypeForgotPasswordBody";
+import { useState } from "react";
 
 const ForgotPasswordPage = () => {
-  const [isEmailSent, setIsEmailSent] = useState(false);
-  const [email, setEmail] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [sentEmailAddress, setSentEmailAddress] = useState<string | null>(null);
 
-  useEffect(() => {
-    setIsEmailSent(false);
-    setEmail(null);
-  }, []);
+  const sendVerificationEmail = async (params: TypeForgotPasswordRequest) => {
+    setIsLoading(true);
+    const { isOk } = await $api.auth.forgot(params);
+    if (isOk) {
+      setSentEmailAddress(params.email);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <>
-      {!isEmailSent ? (
+      {!sentEmailAddress ? (
         <div className="tw-flex tw-flex-col tw-gap-8 tw-w-[520px]">
           <section className="tw-flex tw-justify-center">
             <span className="tw-text-3xl tw-font-medium">Forgot password</span>
           </section>
           <section>
-            <ForgotPasswordForm />
+            <ForgotPasswordForm
+              onComplete={sendVerificationEmail}
+              isLoading={isLoading}
+            />
           </section>
         </div>
       ) : (
         <div className="tw-w-[520px]">
-          <EmailSent email={email} />
+          <EmailSent email={sentEmailAddress} type="reset" />
         </div>
       )}
     </>
