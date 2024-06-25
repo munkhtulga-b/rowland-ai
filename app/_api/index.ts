@@ -7,6 +7,7 @@ import reset from "@/app/_api/auth/ResetPasswordController";
 
 // CHAT API
 import * as chat from "@/app/_api/chat/ChatHistoryController";
+import exportCSV from "@/app/_api/admin/ExportCSVController";
 
 const $api = {
   auth: {
@@ -18,6 +19,9 @@ const $api = {
   },
   user: {
     chat,
+  },
+  admin: {
+    exportCSV,
   },
 };
 
