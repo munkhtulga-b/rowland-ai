@@ -1,5 +1,6 @@
+import TypeHistoryItem from "@/app/_types/chat/TypeHistoryItem";
 import fetchData from "../config";
 
 export const getMany = async () => {
-  return fetchData<any, null>("chat/history", "GET");
+  return fetchData<TypeHistoryItem[], null>("chat/history", "GET");
 };
