@@ -22,16 +22,16 @@ const LoginPage = () => {
     if (isOk) {
       setUser(data.user);
       Cookies.set("session", "true");
+      Cookies.set(
+        "x-user-type",
+        data.user.role === "USER"
+          ? _EEnumUserTypes._USER
+          : _EEnumUserTypes._ADMIN
+      );
       if (process.env.NODE_ENV === "development") {
         Cookies.set("token", data.tokens.access.token, {
           expires: new Date(data.tokens.access.expires),
         });
-        Cookies.set(
-          "x-user-type",
-          data.user.role === "USER"
-            ? _EEnumUserTypes._USER
-            : _EEnumUserTypes._ADMIN
-        );
       }
       if (data.user.role === "USER") {
         router.push(`/chat/${generateUUID()}`);

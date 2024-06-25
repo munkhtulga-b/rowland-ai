@@ -39,8 +39,6 @@ const fetchData = async <T, U>(
     const status = response.status;
     const data = (await response.json()) as T;
 
-    console.log(response);
-
     if (!isOk) {
       const error = data as {
         code: number;
