@@ -35,7 +35,7 @@ const ChatSessionPage = () => {
   const fetchHistory = async () => {
     const { isOk, data } = await $api.user.chat.getMany();
     if (isOk) {
-      console.log(data);
+      console.log(data, "data");
     }
   };
 
