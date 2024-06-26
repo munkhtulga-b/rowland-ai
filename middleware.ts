@@ -34,12 +34,7 @@ export function middleware(request: NextRequest) {
   }
 
   if (request.nextUrl.pathname.startsWith("/user")) {
-    const userType = request.cookies.get("x-user-type")?.value;
-    if (token) {
-      if (userType !== _EEnumUserTypes._ADMIN) {
-        return NextResponse.redirect(new URL("/chat", request.url));
-      }
-    } else {
+    if (!token) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
   }
