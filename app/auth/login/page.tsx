@@ -4,7 +4,6 @@ import LoginForm from "@/app/_components/auth/LoginForm";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { generateUUID } from "@/app/_utils/helpers";
 import $api from "@/app/_api";
 import { TypeLoginRequest } from "@/app/_types/auth/TypeLoginBody";
 import { useUserStore } from "@/app/_store/user-store";
@@ -34,7 +33,7 @@ const LoginPage = () => {
         });
       }
       if (data.user.role === "USER") {
-        router.push(`/chat/${generateUUID()}`);
+        router.push(`/`);
       } else {
         router.push("/admin/history");
       }

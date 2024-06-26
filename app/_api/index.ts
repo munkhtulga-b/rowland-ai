@@ -2,10 +2,12 @@
 import login from "@/app/_api/auth/LoginController";
 import register from "@/app/_api/auth/SignupController";
 import verify from "@/app/_api/auth/VerifyEmailController";
-import forgot from "@/app/_api/auth/ForgotPasswordController"
-import reset from "@/app/_api/auth/ResetPasswordController"
+import forgot from "@/app/_api/auth/ForgotPasswordController";
+import reset from "@/app/_api/auth/ResetPasswordController";
 
-import * as chat from "@/app/_api/chat/ChatHistoryController"
+// USER API
+import * as chat from "@/app/_api/chat/ChatHistoryController";
+import * as feedback from "@/app/_api/chat/ChatFeedbackController";
 
 const $api = {
   auth: {
@@ -17,6 +19,7 @@ const $api = {
   },
   user: {
     chat,
+    feedback,
   },
 };
 
