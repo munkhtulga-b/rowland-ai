@@ -3,13 +3,13 @@
 import React, { Suspense, useEffect, useState } from "react";
 import SessionNavBar from "../_components/session/NavBar";
 import { useWindowWidth } from "../_utils/custom-hooks";
-// import SessionSideBar from "../_components/session/SideBar";
+import SessionSideBar from "../_components/session/SideBar";
 
 const SessionLayout = ({ children }: { children: React.ReactNode }) => {
   const [isMounted, setIsMounted] = useState(false);
   const windowWidth = useWindowWidth();
   const navbarHeight = 78;
-  // const sidebarWidth = 325;
+  const sidebarWidth = 325;
   const containerPaddingTop = 38;
   const containerPaddingBottom = 24;
   const containerHorizontalPadding = 24;
@@ -39,21 +39,20 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
             }}
             className="tw-flex-1 tw-flex tw-justify-start"
           >
-            {/* <div
-            style={{
-              position: "fixed",
-              left: 24,
-              top: navbarHeight + containerPaddingTop,
-              bottom: containerPaddingBottom,
-              width: sidebarWidth,
-            }}
-          >
-            <SessionSideBar />
-          </div> */}
             <div
               style={{
-                // marginLeft: sidebarWidth,
-                marginLeft: 0,
+                position: "fixed",
+                left: 24,
+                top: navbarHeight + containerPaddingTop,
+                bottom: containerPaddingBottom,
+                width: sidebarWidth,
+              }}
+            >
+              <SessionSideBar />
+            </div>
+            <div
+              style={{
+                marginLeft: sidebarWidth,
                 marginBottom: windowWidth < 768 ? 180 : 150,
                 paddingTop: pageVerticalPadding,
                 paddingLeft: windowWidth < 768 ? 0 : pageHorizontalPadding,

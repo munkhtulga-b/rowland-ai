@@ -1,7 +1,6 @@
 import { Input, Button } from "antd";
 import Image from "next/image";
 import { LoadingOutlined } from "@ant-design/icons";
-import { useWindowWidth } from "@/app/_utils/custom-hooks";
 
 const { TextArea } = Input;
 
@@ -17,22 +16,9 @@ const SessionChatPrompt = ({
   sendQuestion: () => void | Promise<void>;
   isStreaming: boolean;
 }) => {
-  const windowWidth = useWindowWidth();
-  // const sidebarWidth = 325;
-  const sidebarWidth = 0;
-  const pageHorizontalPadding = windowWidth < 768 ? 0 : 40;
-  const containerHorizontalPadding = 24;
-
   return (
     <>
-      <div
-        style={{
-          paddingLeft:
-            sidebarWidth + pageHorizontalPadding + containerHorizontalPadding,
-          paddingRight: pageHorizontalPadding + containerHorizontalPadding,
-        }}
-        className="tw-flex tw-flex-col tw-gap-6 tw-pb-6 tw-bg-white tw-z-[999] tw-pt-4"
-      >
+      <div className="tw-flex tw-flex-col tw-gap-6 tw-pb-6 tw-bg-white tw-z-[999] tw-pt-4">
         <section className="tw-flex tw-justify-start tw-items-end tw-gap-2">
           <TextArea
             placeholder="Ask Rowland"

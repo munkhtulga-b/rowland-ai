@@ -1,6 +1,5 @@
 import "katex/dist/katex.min.css";
 import "./markdown.css";
-import { TypeChat } from "@/app/_types/chat/TypeChat";
 import Image from "next/image";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
@@ -12,6 +11,7 @@ import { Readable } from "readable-stream";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { motion, AnimatePresence } from "framer-motion";
+import { TypePromtChat } from "@/app/_types/chat/TypeChat";
 
 const ChatBubble = ({
   chat,
@@ -19,7 +19,7 @@ const ChatBubble = ({
   isStreaming,
   setIsStreaming,
 }: {
-  chat: TypeChat;
+  chat: TypePromtChat;
   sessionId: string;
   isStreaming: boolean;
   // eslint-disable-next-line no-unused-vars
