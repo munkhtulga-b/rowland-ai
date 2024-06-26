@@ -50,9 +50,12 @@ const AdminSideBar = () => {
                 className='tw-transition-none'
             />
             <Button 
-                className={`tw-rotate-${collapsed ? 180 : 0}`} 
                 onClick={toggleCollapsed} 
-                style={{ height: 50, width: 50}} 
+                style={{
+                    height: 50,
+                    width: 50,
+                    transform: `rotate(${collapsed ? '180deg' : '0'})`
+                }} 
                 icon={<LeftOutlined />} 
             />
         </div>

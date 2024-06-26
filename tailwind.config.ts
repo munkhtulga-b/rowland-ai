@@ -17,6 +17,7 @@ const config: Config = {
       textColor: {
         primaryGreen: "#4FBA70",
         primaryGray: "#838795",
+        secondaryGray: "#525560",
       },
       placeholderColor: {
         default: "#838795",
