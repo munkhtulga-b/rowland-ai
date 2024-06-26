@@ -3,9 +3,11 @@
 import Image from "next/image";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation'
 
 const SessionNavBar = ({ height }: { height: number }) => {
   const [user, setUser] = useState("");
+  const router = useRouter()
 
   useEffect(() => {
     setUser(Cookies.get("user") ?? "");
@@ -27,8 +29,8 @@ const SessionNavBar = ({ height }: { height: number }) => {
           priority
         />
         <div
-          onClick={() => Cookies.remove("session")}
-          className="tw-bg-white tw-rounded-full tw-min-w-[44px] tw-max-w-[44px] tw-min-h-[44px] tw-max-h-[44px] tw-grid tw-place-items-center tw-overflow-clip"
+          onClick={() => router.push('/user/profile')}
+          className="tw-bg-white tw-rounded-full tw-min-w-[44px] tw-max-w-[44px] tw-min-h-[44px] tw-max-h-[44px] tw-grid tw-place-items-center tw-overflow-clip hover:tw-cursor-pointer"
         >
           <>
             {user === "jjohnson@futureprooftech.com" ? (
