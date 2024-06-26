@@ -9,11 +9,11 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
   const [isMounted, setIsMounted] = useState(false);
   const windowWidth = useWindowWidth();
   const navbarHeight = 78;
-  const sidebarWidth = 325;
+  // const sidebarWidth = 320;
   const containerPaddingTop = 38;
   const containerPaddingBottom = 24;
   const containerHorizontalPadding = 24;
-  const pageHorizontalPadding = 40;
+  // const pageHorizontalPadding = 40;
   const pageVerticalPadding = 0;
 
   useEffect(() => {
@@ -37,26 +37,26 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
               paddingLeft: containerHorizontalPadding,
               paddingRight: containerHorizontalPadding,
             }}
-            className="tw-flex-1 tw-flex tw-justify-start"
+            className="tw-flex-1 tw-flex tw-justify-start tw-gap-10"
           >
-            <div
-            style={{
-              position: "fixed",
-              left: 24,
-              top: navbarHeight + containerPaddingTop,
-              bottom: containerPaddingBottom,
-              width: sidebarWidth,
-            }}
-          >
-            <AdminSideBar />
-          </div>
             <div
               style={{
-                marginLeft: sidebarWidth,
+                // position: "fixed",
+                // left: 24,
+                // top: navbarHeight + containerPaddingTop,
+                // bottom: containerPaddingBottom,
+                // width: sidebarWidth,
+              }}
+            >
+              <AdminSideBar />
+            </div>
+            <div
+              style={{
+                // marginLeft: sidebarWidth,
                 marginBottom: windowWidth < 768 ? 180 : 150,
                 paddingTop: pageVerticalPadding,
-                paddingLeft: windowWidth < 768 ? 0 : pageHorizontalPadding,
-                paddingRight: windowWidth < 768 ? 0 : pageHorizontalPadding,
+                // paddingLeft: windowWidth < 768 ? 0 : pageHorizontalPadding,
+                // paddingRight: windowWidth < 768 ? 0 : pageHorizontalPadding,
               }}
               className="tw-grow"
             >
