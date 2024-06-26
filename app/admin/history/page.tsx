@@ -3,41 +3,40 @@
 import { DownloadOutlined } from '@ant-design/icons';
 import { Flex, Layout, DatePicker, Space, Button } from 'antd';
 import type { DatePickerProps } from 'antd';
-import { useState } from "react";
-import dayjs from "dayjs";
+import { useState, useEffect } from "react";
+import dayjs, { Dayjs } from "dayjs";
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import Cookies from "js-cookie";
 
-interface FilterDate {
-  startDate: string,
-  endDate: string,
-}
+dayjs.extend(customParseFormat)
 
 const ExportCSVPage = () => {
-  const [date, setDate] = useState<FilterDate>({
-    startDate: dayjs(new Date).format('YYYY-MM-DD').toString(),
-    endDate: dayjs(new Date).format('YYYY-MM-DD').toString(),
-  });
+  const [startDate, setStartDate] = useState<Dayjs>()
+  const [endDate, setEndDate] = useState<Dayjs>();
+  const [isBtnDisabled, setIsBtnDisabled] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (startDate && endDate){
+      setIsBtnDisabled(false)
+    } else {
+      setIsBtnDisabled(true)
+    }
+  }, [startDate, endDate])
+
 
   const onChangeStartDate: DatePickerProps['onChange'] = (date) => {
-    const d = dayjs(date).format('YYYY-MM-DD').toString()
-    setDate((prevState) => ({
-      ...prevState,
-      startDate: d
-    }))
+    // const d = dayjs(date, 'YYYY-MM-DD')
+    setStartDate(date)
   };
 
   const onChangeEndDate: DatePickerProps['onChange'] = (date) => {
-    const d = dayjs(date).format('YYYY-MM-DD').toString()
-    setDate((prevState) => ({
-      ...prevState,
-      endDate: d
-    }))
+    setEndDate(date)
   };
 
   const onExport = async () => {
     const params = {
-      startDate: date.startDate,
-      endDate: date.endDate,
+      startDate: dayjs(startDate).format('YYYY-MM-DD').toString(),
+      endDate: dayjs(endDate).format('YYYY-MM-DD').toString(),
     };
 
     const urlSearchParams = new URLSearchParams(params).toString();
@@ -82,8 +81,8 @@ const ExportCSVPage = () => {
         <h1 className="tw-text-lg tw-font-semibold">Detailed interaction log (History) (CSV)</h1>
         <Flex>
           <Space direction="horizontal" size={12}>
-            <DatePicker value={dayjs(date?.startDate)} onChange={onChangeStartDate} />
-            <DatePicker value={dayjs(date?.endDate)} onChange={onChangeEndDate} />
+            <DatePicker value={startDate}  onChange={onChangeStartDate} />
+            <DatePicker value={endDate} onChange={onChangeEndDate} disabledDate={(startDate) => {return startDate && startDate < dayjs(new Date).subtract(1,'days')}} />
             <Button
               style={{
                 height: '0',
@@ -93,6 +92,7 @@ const ExportCSVPage = () => {
               type="primary"
               icon={<DownloadOutlined />}
               onClick={onExport}
+              disabled={isBtnDisabled}
             >
               Export
             </Button>
