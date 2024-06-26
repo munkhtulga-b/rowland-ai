@@ -3,7 +3,7 @@ type TypeUser = {
   email: string;
   first_name: string;
   last_name: string;
-  id: number;
+  id: string;
   is_email_verified: boolean;
   is_subscribed_email: boolean;
   role: string;
