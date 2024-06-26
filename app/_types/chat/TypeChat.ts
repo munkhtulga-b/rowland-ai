@@ -43,6 +43,11 @@ export type TypeHistoryChat = {
     model: string;
     sources: string[];
     chat_id: number;
-    feedback: string | null;
+    feedback: {
+      answer_id: number;
+      id: number;
+      message: string | null;
+      rate: number;
+    } | null;
   };
 };

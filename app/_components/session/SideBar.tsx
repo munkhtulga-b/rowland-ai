@@ -98,11 +98,13 @@ const SessionSideBar = () => {
                         {group.items.map((item) => (
                           <li
                             key={item.id}
-                            className="tw-m-0 tw-cursor-pointer"
-                            onClick={() => router.push(`/chat/${item.id}`)}
+                            className="tw-m-0 tw-cursor-pointer tw-truncate"
+                            onClick={() =>
+                              router.push(`/chat/${item.session_id}`)
+                            }
                           >
-                            <span className="tw-text-primaryGray tw-font-medium tw-truncate">
-                              {item.id}
+                            <span className="tw-text-primaryGray tw-font-medium">
+                              {item.summary}
                             </span>
                           </li>
                         ))}

@@ -8,9 +8,13 @@ import dayjs from "dayjs";
 import { useParams } from "next/navigation";
 import $api from "@/app/_api";
 import HistoryChatBubble from "@/app/_components/session/chat/HistoryChatBubble";
+import { useNewSessionStore } from "@/app/_store/new-session-store";
 
 const ChatSessionPage = () => {
   const { id: sessionId }: { id: string } = useParams();
+
+  const getNewSession = useNewSessionStore((state) => state.getSession());
+  const setNewSession = useNewSessionStore((state) => state.setSession);
 
   const [historyChats, setHistoryChats] = useState<TypeHistoryChat[]>([]);
   const [chats, setChats] = useState<TypePromtChat[]>([]);
@@ -25,16 +29,27 @@ const ChatSessionPage = () => {
   const pageHorizontalPadding = 40;
 
   useEffect(() => {
-    fetchHistoryChats();
+    if (getNewSession && getNewSession.session) {
+      handleNewSession(getNewSession.session);
+    } else {
+      fetchHistoryChats();
+    }
   }, []);
 
   const fetchHistoryChats = async () => {
     setIsFetching(true);
-    const { isOk, data } = await $api.user.chat.getOne(sessionId);
+    const { isOk, data } = await $api.user.chat.getOne(sessionId, {
+      sortBy: "created_at",
+    });
     if (isOk) {
       setHistoryChats(data);
     }
     setIsFetching(false);
+  };
+
+  const handleNewSession = (sessionChats: TypePromtChat[]) => {
+    setChats(sessionChats);
+    setNewSession(null);
   };
 
   const promptChat = async () => {

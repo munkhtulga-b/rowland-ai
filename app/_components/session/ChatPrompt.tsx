@@ -14,7 +14,7 @@ const SessionChatPrompt = ({
   // eslint-disable-next-line no-unused-vars
   setPromptValue: (value: string) => void;
   sendQuestion: () => void | Promise<void>;
-  isStreaming: boolean;
+  isStreaming?: boolean;
 }) => {
   return (
     <>
