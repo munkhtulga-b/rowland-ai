@@ -2,41 +2,39 @@
 
 import SessionChatPrompt from "@/app/_components/session/ChatPrompt";
 import ChatBubble from "@/app/_components/session/chat/ChatBubble";
-import { TypeChat } from "@/app/_types/chat/TypeChat";
+import { TypeHistoryChat, TypePromtChat } from "@/app/_types/chat/TypeChat";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { generateUUID } from "@/app/_utils/helpers";
+import { useParams } from "next/navigation";
 import $api from "@/app/_api";
+import HistoryChatBubble from "@/app/_components/session/chat/HistoryChatBubble";
 
 const ChatSessionPage = () => {
-  const [sessionId, setSessionId] = useState("");
+  const { id: sessionId }: { id: string } = useParams();
 
-  const [chats, setChats] = useState<TypeChat[]>([]);
+  const [historyChats, setHistoryChats] = useState<TypeHistoryChat[]>([]);
+  const [chats, setChats] = useState<TypePromtChat[]>([]);
 
   const [isFetching, setIsFetching] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
 
   const [promptValue, setPromptValue] = useState("");
 
+  const sidebarWidth = 325;
+  const containerHorizontalPadding = 24;
+  const pageHorizontalPadding = 40;
+
   useEffect(() => {
-    fetchHistory();
-    setSessionId(generateUUID());
-    setChats([
-      {
-        id: 1,
-        message: "Hi, I'm Rowland. How can i assist you today?",
-        user: "BOT",
-        created_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
-      },
-    ]);
-    setIsFetching(false);
+    fetchHistoryChats();
   }, []);
 
-  const fetchHistory = async () => {
-    const { isOk, data } = await $api.user.chat.getMany();
+  const fetchHistoryChats = async () => {
+    setIsFetching(true);
+    const { isOk, data } = await $api.user.chat.getOne(sessionId);
     if (isOk) {
-      console.log(data, "data");
+      setHistoryChats(data);
     }
+    setIsFetching(false);
   };
 
   const promptChat = async () => {
@@ -78,6 +76,13 @@ const ChatSessionPage = () => {
       >
         {!isFetching ? (
           <>
+            {historyChats.length ? (
+              <>
+                {historyChats.map((chat) => (
+                  <HistoryChatBubble key={chat.id} chat={chat} />
+                ))}
+              </>
+            ) : null}
             {chats.map((chat) => (
               <ChatBubble
                 key={chat?.id}
@@ -92,8 +97,9 @@ const ChatSessionPage = () => {
         <div
           style={{
             position: "fixed",
-            left: 0,
-            right: 0,
+            left:
+              sidebarWidth + containerHorizontalPadding + pageHorizontalPadding,
+            right: containerHorizontalPadding + pageHorizontalPadding,
             bottom: 0,
           }}
         >

@@ -34,3 +34,22 @@ export const generateUUID = () => {
     return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
   });
 };
+
+export const createQueryString = <T>(queryObject: T | undefined) => {
+  if (!queryObject) {
+    return "";
+  }
+
+  let queryString = "?";
+  const keys = Object.keys(queryObject);
+
+  keys.forEach((key, idx) => {
+    if (idx === keys.length - 1) {
+      queryString += `${key}=${queryObject[key as keyof T]}`;
+    } else {
+      queryString += `${key}=${queryObject[key as keyof T]}&`;
+    }
+  });
+
+  return queryString;
+};
