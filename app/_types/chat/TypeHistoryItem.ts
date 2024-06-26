@@ -1,5 +1,6 @@
-type TypeHistoryItem = {
+export type TypeHistoryItem = {
   id: number;
+  label?: string;
   user_id: string;
   session_id: string;
   summary: string | null;
@@ -7,4 +8,7 @@ type TypeHistoryItem = {
   updated_at: string;
 };
 
-export default TypeHistoryItem;
+export type TypeSortedHistoryItem = {
+  title: string;
+  items: TypeHistoryItem[];
+};
