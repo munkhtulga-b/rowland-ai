@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { generateUUID } from "./app/_utils/helpers";
 import _EEnumUserTypes from "./app/_enums/EEnumUserTypes";
 
 // This function can be marked `async` if using `await` inside
@@ -16,14 +15,8 @@ export function middleware(request: NextRequest) {
 
   if (
     request.nextUrl.pathname === "/" ||
-    request.nextUrl.pathname === "/chat"
+    request.nextUrl.pathname.startsWith("/chat")
   ) {
-    return NextResponse.redirect(
-      new URL(`/chat/${generateUUID()}`, request.url)
-    );
-  }
-
-  if (request.nextUrl.pathname.startsWith("/chat")) {
     if (!token) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
@@ -36,6 +29,12 @@ export function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/chat", request.url));
       }
     } else {
+      return NextResponse.redirect(new URL("/auth/login", request.url));
+    }
+  }
+
+  if (request.nextUrl.pathname.startsWith("/user")) {
+    if (!token) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
   }

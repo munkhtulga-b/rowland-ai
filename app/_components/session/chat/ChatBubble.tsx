@@ -1,6 +1,5 @@
 import "katex/dist/katex.min.css";
 import "./markdown.css";
-import { TypeChat } from "@/app/_types/chat/TypeChat";
 import Image from "next/image";
 import Markdown from "react-markdown";
 import remarkMath from "remark-math";
@@ -12,6 +11,9 @@ import { Readable } from "readable-stream";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { motion, AnimatePresence } from "framer-motion";
+import { TypePromtChat } from "@/app/_types/chat/TypeChat";
+import _EEnumChatFeedback from "@/app/_enums/EEnumChatFeedback";
+import $api from "@/app/_api";
 
 const ChatBubble = ({
   chat,
@@ -19,7 +21,7 @@ const ChatBubble = ({
   isStreaming,
   setIsStreaming,
 }: {
-  chat: TypeChat;
+  chat: TypePromtChat;
   sessionId: string;
   isStreaming: boolean;
   // eslint-disable-next-line no-unused-vars
@@ -28,6 +30,14 @@ const ChatBubble = ({
   const isInitialMount = useRef(true);
   const user = Cookies.get("user");
   const [streamMessage, setStreamMessage] = useState("");
+  const [answerId, setAnswerId] = useState<number | null>(null);
+  const [sentFeedback, setSentFeedback] = useState<
+    _EEnumChatFeedback._LIKE | _EEnumChatFeedback._DISLIKE | null
+  >(null);
+
+  useEffect(() => {
+    console.log(answerId);
+  }, [answerId]);
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") {
@@ -40,6 +50,17 @@ const ChatBubble = ({
       }
     }
   }, [chat]);
+
+  const handleFeedback = async (rating: number) => {
+    if (!answerId || sentFeedback !== null) return;
+    const { isOk } = await $api.user.feedback.send({
+      answer_id: answerId,
+      rate: rating,
+    });
+    if (isOk) {
+      setSentFeedback(rating);
+    }
+  };
 
   const streamChat = async () => {
     if (!chat.question || isStreaming) return;
@@ -83,10 +104,16 @@ const ChatBubble = ({
             this.push(null);
             setIsStreaming(false);
           } else {
-            this.push(Buffer.from(value));
-            setStreamMessage(
-              (prev) => prev + Buffer.from(value).toString("utf-8")
-            );
+            const stringValue = Buffer.from(value).toString("utf-8");
+            if (stringValue.match(/%%([^%]+)%%/g)) {
+              this.push(Buffer.from(value));
+              setAnswerId(Number(stringValue.replace(/%/g, "")));
+            } else {
+              this.push(Buffer.from(value));
+              setStreamMessage(
+                (prev) => prev + Buffer.from(value).toString("utf-8")
+              );
+            }
           }
         },
       });
@@ -197,7 +224,11 @@ const ChatBubble = ({
                             </span>
                             <div className="tw-flex tw-justify-start tw-items-center tw-gap-2">
                               <Image
-                                src="/assets/chat/thumb-up-outlined.svg"
+                                src={`/assets/chat/thumb-up-${
+                                  sentFeedback === _EEnumChatFeedback._LIKE
+                                    ? "filled"
+                                    : "outlined"
+                                }.svg`}
                                 alt="thumbs-up"
                                 width={0}
                                 height={0}
@@ -206,9 +237,16 @@ const ChatBubble = ({
                                   height: "auto",
                                   cursor: "pointer",
                                 }}
+                                onClick={() =>
+                                  handleFeedback(_EEnumChatFeedback._LIKE)
+                                }
                               />
                               <Image
-                                src="/assets/chat/thumb-down-outlined.svg"
+                                src={`/assets/chat/thumb-down-${
+                                  sentFeedback === _EEnumChatFeedback._DISLIKE
+                                    ? "filled"
+                                    : "outlined"
+                                }.svg`}
                                 alt="thumbs-down"
                                 width={0}
                                 height={0}
@@ -217,6 +255,9 @@ const ChatBubble = ({
                                   height: "auto",
                                   cursor: "pointer",
                                 }}
+                                onClick={() =>
+                                  handleFeedback(_EEnumChatFeedback._DISLIKE)
+                                }
                               />
                             </div>
                           </section>

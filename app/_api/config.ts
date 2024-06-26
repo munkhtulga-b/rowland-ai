@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { redirectUnauthorized } from "./actions";
 
 const fetchData = async <T, U>(
   endpoint: string,
@@ -45,6 +46,11 @@ const fetchData = async <T, U>(
         message: string;
       };
       toast.error(error.message);
+      if (process.env.NODE_ENV === "development") {
+        if (error.code === 401) {
+          redirectUnauthorized();
+        }
+      }
     }
 
     return {

@@ -18,10 +18,36 @@ export type TypeChatbotResponse = {
   status: string;
 };
 
-export type TypeChat = {
+export type TypePromtChat = {
   id: string | number;
   question?: string;
   message: string;
   user: string;
   created_at: string;
+};
+
+export type TypeHistoryChat = {
+  id: number;
+  chat_history_id: number;
+  created_at: string;
+  Question: {
+    id: number;
+    message: string;
+    chat_id: number;
+  };
+  Answer: {
+    id: number;
+    message: string;
+    response_time: number;
+    total_tokens: number;
+    model: string;
+    sources: string[];
+    chat_id: number;
+    feedback: {
+      answer_id: number;
+      id: number;
+      message: string | null;
+      rate: number;
+    } | null;
+  };
 };
