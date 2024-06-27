@@ -104,12 +104,11 @@ const ChatBubble = ({
             this.push(null);
             setIsStreaming(false);
           } else {
+            this.push(Buffer.from(value));
             const stringValue = Buffer.from(value).toString("utf-8");
             if (stringValue.match(/%%([^%]+)%%/g)) {
-              this.push(Buffer.from(value));
               setAnswerId(Number(stringValue.replace(/%/g, "")));
             } else {
-              this.push(Buffer.from(value));
               setStreamMessage(
                 (prev) => prev + Buffer.from(value).toString("utf-8")
               );
