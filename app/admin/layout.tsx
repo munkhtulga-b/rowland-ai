@@ -14,7 +14,7 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
   const containerPaddingBottom = 24;
   const containerHorizontalPadding = 24;
   // const pageHorizontalPadding = 40;
-  const pageVerticalPadding = 0;
+  // const pageVerticalPadding = 0;
 
   useEffect(() => {
     if (windowWidth) {
