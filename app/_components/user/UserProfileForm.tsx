@@ -8,13 +8,14 @@ import _ from "lodash";
 import { TypeProfileUpdateUser } from "@/app/_types/user/TypeProfileUpdateUser";
 import $api from "@/app/_api";
 import Cookies from "js-cookie";
-// import { toast } from "react-toastify";
+import { notification } from "antd";
 import { useUserStore } from "@/app/_store/user-store";
 import _EEnumUserTypes from "@/app/_enums/EEnumUserTypes";
 
 const UserProfileForm = ({ user }: { user: TypeUser }) => {
 
   const [form] = Form.useForm<TypeProfileUpdateUser>();
+  const [api, _contextHolder] = notification.useNotification();
   const [isLoading, setIsLoading] = useState(false);
   const setUser = useUserStore((state) => state.setUser);
   const router = useRouter();
@@ -25,6 +26,13 @@ const UserProfileForm = ({ user }: { user: TypeUser }) => {
       firstName: body.firstName || "",
       lastName: body.lastName || "",
       companyName: body.companyName || "",
+    };
+
+    const openNotification = () => {
+      api.success({
+        message: 'The profile has been updated',
+        // description: 'User profile updated successfully',
+      });
     };
 
     
@@ -40,6 +48,7 @@ const UserProfileForm = ({ user }: { user: TypeUser }) => {
           ? _EEnumUserTypes._USER
           : _EEnumUserTypes._ADMIN
       );
+      openNotification()
       router.refresh()
     }
     setIsLoading(false);
@@ -47,6 +56,7 @@ const UserProfileForm = ({ user }: { user: TypeUser }) => {
 
   return (
     <>
+      {_contextHolder}
       <Form
         form={form}
         name="profile-form"

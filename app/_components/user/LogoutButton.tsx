@@ -21,12 +21,11 @@ const LogoutButton = () => {
             <div className="tw-text-lg tw-text-secondaryGray tw-font-medium">Log out</div>
             <div className="tw-min-w-[24px] tw-max-w-[24px] tw-min-h-[24px] tw-max-h-[24px]">
                 <Image
-                    src="/assets/logout.svg"
+                    src="/assets/icons/logout.svg"
                     alt="user-icon"
                     width={0}
                     height={0}
                     style={{ width: "auto", height: "auto" }}
-                    unoptimized
                     priority
                 />
             </div>

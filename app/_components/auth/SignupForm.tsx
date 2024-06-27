@@ -135,7 +135,7 @@ const SignupForm = ({
                   return Promise.resolve();
                 }
                 return Promise.reject(
-                  new Error("The new password that you entered do not match!")
+                  new Error("The password that you entered do not match!")
                 );
               },
             }),
