@@ -1,16 +1,17 @@
-import { LockOutlined, RightOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { Modal, Button, Form, Input } from "antd";
 import { TypeChangePassword } from "@/app/_types/user/TypeProfileUpdateUser";
 import _ from "lodash";
-import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import { notification } from "antd";
 import $api from '@/app/_api';
+import { passwordValidator } from '@/app/_utils/helpers';
+import Image from 'next/image';
 
 const ChangePasswordButton = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [form] = Form.useForm<TypeChangePassword>();
+    const [api, _contextHolder] = notification.useNotification();
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -24,32 +25,55 @@ const ChangePasswordButton = () => {
         setIsModalOpen(false);
     };
 
+    const openNotification = () => {
+        api.success({
+            message: 'The password has been updated',
+        });
+    };
+
     const beforeComplete = async (params: TypeChangePassword) => {
         setIsLoading(true)
         const body = _.omit(params, ["confirmPassword"]);
 
-        const { isOk, data } = await $api.user.changePassword({
+        const { isOk } = await $api.user.changePassword({
             oldPassword: body.oldPassword || "",
             newPassword: body.newPassword || ""
         });
 
-        if(isOk) {
+        if (isOk) {
             handleOk()
-            toast("Password has been changed successfully");
-        } else {
-            console.log(data);
+            openNotification()
         }
         setIsLoading(false)
     };
 
     return <>
-        <div className="tw-flex tw-text-2xl tw-text-secondaryGray tw-flex-row tw-justify-between hover:tw-cursor-pointer" onClick={showModal}>
+        {_contextHolder}
+        <div className="tw-p-6 tw-rounded-2xl tw-bg-grayLight hover:tw-bg-slate-200 tw-flex tw-text-2xl tw-text-secondaryGray tw-flex-row tw-justify-between hover:tw-cursor-pointer" onClick={showModal}>
             <div className="tw-flex tw-flex-row tw-items-center tw-gap-4">
-                <LockOutlined />
+                <div className="tw-min-w-[28px] tw-max-w-[28px] tw-min-h-[28px] tw-max-h-[28px]">
+                    <Image
+                        src="/assets/icons/lock.svg"
+                        alt="chevron-right-icon"
+                        width={0}
+                        height={0}
+                        style={{ width: "100%", height: "100%" }}
+                        priority
+                    />
+                </div>
                 <div className="tw-text-lg tw-font-medium">Change password</div>
             </div>
             <div className="">
-                <RightOutlined />
+                <div className="tw-min-w-[28px] tw-max-w-[28px] tw-min-h-[28px] tw-max-h-[28px]">
+                    <Image
+                        src="/assets/icons/chevron-right.svg"
+                        alt="chevron-right-icon"
+                        width={0}
+                        height={0}
+                        style={{ width: "100%", height: "100%" }}
+                        priority
+                    />
+                </div>
             </div>
         </div>
         <Modal
@@ -85,6 +109,9 @@ const ChangePasswordButton = () => {
                     key="submit"
                     htmlType="submit"
                     loading={isLoading}
+                    style={{
+                        padding: "16px 32px"
+                    }}
                 >
                     Save
                 </Button>
@@ -108,8 +135,18 @@ const ChangePasswordButton = () => {
                 rules={[
                     {
                         required: true,
-                        message: "Please input your new password!",
                     },
+                    () => ({
+                        validator(_, value) {
+                            const isPasswordValid = passwordValidator(value);
+                            if (isPasswordValid.isValid) {
+                                return Promise.resolve();
+                            }
+                            return Promise.reject(
+                                new Error(isPasswordValid.message)
+                            );
+                        },
+                    }),
                 ]}
             >
                 <Input.Password placeholder="New password" />
@@ -131,7 +168,7 @@ const ChangePasswordButton = () => {
                                 return Promise.resolve();
                             }
                             return Promise.reject(
-                                new Error("The new password that you entered do not match!")
+                                new Error("The password that you entered do not match!")
                             );
                         },
                     }),
@@ -139,7 +176,6 @@ const ChangePasswordButton = () => {
             >
                 <Input.Password placeholder="Repeat password" />
             </Form.Item>
-            <ToastContainer />
         </Modal>
     </>
 }

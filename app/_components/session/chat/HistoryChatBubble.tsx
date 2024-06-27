@@ -23,6 +23,9 @@ const HistoryChatBubble = ({ chat }: { chat: TypeHistoryChat }) => {
   >(null);
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [hasFeedbackMessage, setHasFeedbackMessage] = useState<boolean>(
+    chat.Answer.feedback && chat.Answer.feedback.message ? true : false
+  );
 
   useEffect(() => {
     if (chat.Answer.feedback && chat.Answer.feedback.rate !== null) {
@@ -39,7 +42,7 @@ const HistoryChatBubble = ({ chat }: { chat: TypeHistoryChat }) => {
       if (isOk) {
         setSentFeedback(rating);
         openNotification("bottom");
-        hideChatFeedback();
+        setHasFeedbackMessage(false);
       }
     } else {
       setIsSending(true);
@@ -49,17 +52,10 @@ const HistoryChatBubble = ({ chat }: { chat: TypeHistoryChat }) => {
         message: message,
       });
       if (isOk) {
-        hideChatFeedback();
         openNotification("bottom");
+        setHasFeedbackMessage(true);
       }
       setIsSending(false);
-    }
-  };
-
-  const hideChatFeedback = () => {
-    const el = document.getElementById(`answer-${chat.Answer.id}`);
-    if (el) {
-      el.remove();
     }
   };
 
@@ -130,17 +126,16 @@ const HistoryChatBubble = ({ chat }: { chat: TypeHistoryChat }) => {
               rehypePlugins={[rehypeKatex]}
               className={"tw-text-base"}
             />
-            {chat.Answer.feedback === null && (
-              <ChatFeedback
-                answerId={chat.Answer.id}
-                sentFeedback={sentFeedback}
-                setSentFeedback={setSentFeedback}
-                handleFeedback={handleFeedback}
-                feedbackMessage={feedbackMessage}
-                setFeedbackMessage={setFeedbackMessage}
-                isSending={isSending}
-              />
-            )}
+            <ChatFeedback
+              answerId={chat.Answer.id}
+              sentFeedback={sentFeedback}
+              setSentFeedback={setSentFeedback}
+              handleFeedback={handleFeedback}
+              feedbackMessage={feedbackMessage}
+              setFeedbackMessage={setFeedbackMessage}
+              hasFeedbackMessage={hasFeedbackMessage}
+              isSending={isSending}
+            />
           </section>
         </div>
       </div>

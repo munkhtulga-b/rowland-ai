@@ -35,36 +35,34 @@ const AdminProfilePage = () => {
 
 
   return <>
-    <>
-      <div className="tw-flex tw-flex-col tw-gap-8" style={{
-        width: '500px'
-      }}>
-        <div className="tw-p-6 tw-rounded-2xl tw-bg-grayLight tw-flex tw-gap-4 tw-items-center">
-          <div
-            className="tw-bg-secondary tw-text-white tw-rounded-full tw-min-w-[50px] tw-max-w-[50px] tw-min-h-[50px] tw-max-h-[50px] tw-grid tw-place-items-center tw-overflow-clip"
-          >
-            <Image
-              src={"/assets/navbar/user-icon-white.svg"}
-              alt="user-icon"
-              width={0}
-              height={0}
-              style={{ width: "auto", height: "auto" }}
-            />
-          </div>
-          <div className="tw-text-2xl tw-text-black tw-font-medium">
-            {user?.email}
-          </div>
+    <div className="tw-flex tw-flex-col tw-gap-8" style={{
+      width: '500px'
+    }}>
+      <div className="tw-p-6 tw-rounded-2xl tw-bg-grayLight tw-flex tw-gap-4 tw-items-center">
+        <div
+          className="tw-bg-secondary tw-text-white tw-rounded-full tw-min-w-[50px] tw-max-w-[50px] tw-min-h-[50px] tw-max-h-[50px] tw-grid tw-place-items-center tw-overflow-clip"
+        >
+          <Image
+            src={"/assets/navbar/user-icon-white.svg"}
+            alt="user-icon"
+            width={0}
+            height={0}
+            style={{ width: "auto", height: "auto" }}
+          />
         </div>
-
-        <div className="tw-p-6 tw-rounded-2xl tw-bg-grayLight hover:tw-bg-slate-200">
-          <ChangePasswordButton />
-        </div>
-
-        <div className="tw-p-6 tw-rounded-2xl tw-bg-grayLight hover:tw-bg-slate-200">
-          <LogoutButton />
+        <div className="tw-text-2xl tw-text-black tw-font-medium">
+          {user?.email}
         </div>
       </div>
-    </>
+
+      <div className="">
+        <ChangePasswordButton />
+      </div>
+
+      <div className="">
+        <LogoutButton />
+      </div>
+    </div>
   </>;
 };
 

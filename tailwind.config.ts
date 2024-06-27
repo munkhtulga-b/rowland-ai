@@ -13,6 +13,7 @@ const config: Config = {
         primary: "#4FBA70",
         secondary: "#1D3361",
         grayLight: "#F4F5F6",
+        grayMedium: "#D6D7DC",
       },
       textColor: {
         primaryGreen: "#4FBA70",
