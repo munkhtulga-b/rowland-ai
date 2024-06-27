@@ -135,6 +135,7 @@ const ChangePasswordButton = () => {
                 rules={[
                     {
                         required: true,
+                        message: ""
                     },
                     () => ({
                         validator(_, value) {

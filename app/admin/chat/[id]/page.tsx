@@ -9,8 +9,9 @@ import { useParams } from "next/navigation";
 import $api from "@/app/_api";
 import HistoryChatBubble from "@/app/_components/session/chat/HistoryChatBubble";
 import { useNewSessionStore } from "@/app/_store/new-session-store";
+import AdminChatSideBar from "@/app/_components/admin/AdminChatSideBar";
 
-const AdminChatbotPage = () => {
+const AdminChatSessionPage = () => {
   const { id: sessionId }: { id: string } = useParams();
 
   const getNewSession = useNewSessionStore((state) => state.getSession());
@@ -24,9 +25,13 @@ const AdminChatbotPage = () => {
 
   const [promptValue, setPromptValue] = useState("");
 
+  const navbarHeight = 78;
   const sidebarWidth = 325;
+  const containerPaddingTop = 38;
+  const containerPaddingBottom = 24;
   const containerHorizontalPadding = 24;
   const pageHorizontalPadding = 40;
+  const pageVerticalPadding = 0;
 
   useEffect(() => {
     if (getNewSession && getNewSession.session) {
@@ -40,9 +45,13 @@ const AdminChatbotPage = () => {
     setIsFetching(true);
     const { isOk, data } = await $api.user.chat.getOne(sessionId, {
       sortBy: "created_at",
+      sortType: "asc",
     });
     if (isOk) {
       setHistoryChats(data);
+      setTimeout(() => {
+        scrollToBottom();
+      }, 500);
     }
     setIsFetching(false);
   };
@@ -86,48 +95,67 @@ const AdminChatbotPage = () => {
   return (
     <>
       <div
-        style={{ overscrollBehavior: "contain" }}
-        className="tw-h-full tw-flex tw-flex-col tw-gap-[30px] tw-px-[22px]"
+        style={{
+          position: "fixed",
+          left: 350,
+          top: navbarHeight + containerPaddingTop,
+          bottom: containerPaddingBottom,
+          width: sidebarWidth,
+        }}
       >
-        {!isFetching ? (
-          <>
-            {historyChats.length ? (
+        <AdminChatSideBar />
+      </div>
+      <div style={{
+        marginLeft: sidebarWidth,
+        paddingTop: pageVerticalPadding,
+      }}>
+        <div className="tw-bg-white tw-rounded-[26px] tw-p-10 tw-w-full tw-flex tw-flex-col tw-gap-8  tw-min-h-[800px]">
+          <div
+            style={{ overscrollBehavior: "contain" }}
+            className="tw-h-full tw-flex tw-flex-col tw-gap-[30px] tw-px-[22px]"
+          >
+            {!isFetching ? (
               <>
-                {historyChats.map((chat) => (
-                  <HistoryChatBubble key={chat.id} chat={chat} />
+                {historyChats.length ? (
+                  <>
+                    {historyChats.map((chat) => (
+                      <HistoryChatBubble key={chat.id} chat={chat} />
+                    ))}
+                  </>
+                ) : null}
+                {chats.map((chat) => (
+                  <ChatBubble
+                    key={chat?.id}
+                    chat={chat}
+                    sessionId={sessionId}
+                    isStreaming={isStreaming}
+                    setIsStreaming={(value: boolean) => setIsStreaming(value)}
+                  />
                 ))}
               </>
             ) : null}
-            {chats.map((chat) => (
-              <ChatBubble
-                key={chat?.id}
-                chat={chat}
-                sessionId={sessionId}
+            <div
+              style={{
+                position: "fixed",
+                left:
+                  sidebarWidth + sidebarWidth + containerHorizontalPadding + pageHorizontalPadding,
+                right: containerHorizontalPadding + pageHorizontalPadding,
+                bottom: "30px",
+              }}
+            >
+              <SessionChatPrompt
+                promptValue={promptValue}
+                setPromptValue={setPromptValue}
+                sendQuestion={promptChat}
                 isStreaming={isStreaming}
-                setIsStreaming={(value: boolean) => setIsStreaming(value)}
               />
-            ))}
-          </>
-        ) : null}
-        <div
-          style={{
-            position: "fixed",
-            left:
-              sidebarWidth + containerHorizontalPadding + pageHorizontalPadding,
-            right: containerHorizontalPadding + pageHorizontalPadding,
-            bottom: 0,
-          }}
-        >
-          <SessionChatPrompt
-            promptValue={promptValue}
-            setPromptValue={setPromptValue}
-            sendQuestion={promptChat}
-            isStreaming={isStreaming}
-          />
+            </div>
+          </div>
         </div>
+
       </div>
     </>
   );
 };
 
-export default AdminChatbotPage;
+export default AdminChatSessionPage;

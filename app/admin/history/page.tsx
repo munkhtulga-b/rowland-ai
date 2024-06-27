@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from 'dayjs/plugin/customParseFormat'
 import Cookies from "js-cookie";
+import { start } from 'repl';
 
 dayjs.extend(customParseFormat)
 
@@ -14,7 +15,7 @@ const ExportCSVPage = () => {
   const [startDate, setStartDate] = useState<Dayjs>()
   const [endDate, setEndDate] = useState<Dayjs>();
   const [isBtnDisabled, setIsBtnDisabled] = useState<boolean>(true);
-
+  
   useEffect(() => {
     if (startDate && endDate){
       setIsBtnDisabled(false)
@@ -25,7 +26,6 @@ const ExportCSVPage = () => {
 
 
   const onChangeStartDate: DatePickerProps['onChange'] = (date) => {
-    // const d = dayjs(date, 'YYYY-MM-DD')
     setStartDate(date)
   };
 
@@ -81,8 +81,21 @@ const ExportCSVPage = () => {
         <h1 className="tw-text-lg tw-font-semibold">Detailed interaction log (CSV)</h1>
         <Flex>
           <Space direction="horizontal" size={12}>
-            <DatePicker placeholder='Start date' value={startDate}  onChange={onChangeStartDate} />
-            <DatePicker placeholder='End date' value={endDate} onChange={onChangeEndDate} disabledDate={(startDate) => {return startDate && startDate < dayjs(new Date).subtract(1,'days')}} />
+            <DatePicker 
+              placeholder='Start date' 
+              value={startDate}  
+              onChange={onChangeStartDate} 
+            />
+            <DatePicker 
+              placeholder='End date' 
+              value={endDate} 
+              onChange={onChangeEndDate} 
+              // disabledDate={(startDate) => {
+              //   return dayjs().isBefore(dayjs('2024-06-11'))
+              // }} 
+              disabled={!startDate}
+              minDate={startDate}
+            />
             <Button
               style={{
                 height: '0',

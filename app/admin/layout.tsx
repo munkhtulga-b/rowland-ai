@@ -1,9 +1,9 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import SessionNavBar from "../../_components/session/NavBar";
-import { useWindowWidth } from "../../_utils/custom-hooks";
-import AdminSideBar from "../../_components/admin/AdminSideBar";
+import SessionNavBar from "../_components/session/NavBar";
+import { useWindowWidth } from "../_utils/custom-hooks";
+import AdminSideBar from "../_components/admin/AdminSideBar";
 
 const SessionLayout = ({ children }: { children: React.ReactNode }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -39,27 +39,10 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
             }}
             className="tw-flex-1 tw-flex tw-justify-start tw-gap-10"
           >
-            <div
-              style={{
-                // position: "fixed",
-                // left: 24,
-                // top: navbarHeight + containerPaddingTop,
-                // bottom: containerPaddingBottom,
-                // width: sidebarWidth,
-              }}
-            >
+            <div>
               <AdminSideBar />
             </div>
-            <div
-              style={{
-                // marginLeft: sidebarWidth,
-                marginBottom: windowWidth < 768 ? 180 : 150,
-                paddingTop: pageVerticalPadding,
-                // paddingLeft: windowWidth < 768 ? 0 : pageHorizontalPadding,
-                // paddingRight: windowWidth < 768 ? 0 : pageHorizontalPadding,
-              }}
-              className="tw-grow"
-            >
+            <div className="tw-grow">
               <Suspense fallback={<></>}>{children}</Suspense>
             </div>
           </section>

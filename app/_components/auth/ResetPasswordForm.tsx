@@ -40,6 +40,7 @@ const ResetPasswordForm = ({
           rules={[
             {
               required: true,
+              message: ""
             },
             () => ({
               validator(_, value) {
