@@ -46,7 +46,7 @@ const UserProfileForm = ({ user }: { user: TypeUser }) => {
           companyName: user.company_name
         }}
       >
-        <section className="tw-flex tw-flex-row tw-justify-between tw-mb-6 tw-w-full">
+        <section className="tw-flex tw-flex-row tw-justify-between tw-w-full">
           <div className="tw-text-xl tw-font-medium">Personal information</div>
           <Form.Item>
             <Button
@@ -89,7 +89,6 @@ const UserProfileForm = ({ user }: { user: TypeUser }) => {
         <Form.Item
           name="companyName"
           label="Company"
-          rules={[{ required: true, message: "Please input your company!" }]}
           style={{ flex: 1 }}
         >
           <Input placeholder="Company" style={{ backgroundColor: "white" }} />

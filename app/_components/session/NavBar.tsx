@@ -4,6 +4,7 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'
+// import _EEnumUserTypes from "../../app/_enums/EEnumUserTypes";
 
 const SessionNavBar = ({ height }: { height: number }) => {
   const [user, setUser] = useState("");

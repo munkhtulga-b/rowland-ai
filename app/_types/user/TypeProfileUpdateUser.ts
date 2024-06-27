@@ -3,3 +3,8 @@ export type TypeProfileUpdateUser = {
     lastName: string;
     companyName?: string;
 };
+
+export type TypeChangePassword = {
+    oldPassword: string;
+    newPassword: string;
+}

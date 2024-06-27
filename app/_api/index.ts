@@ -5,6 +5,7 @@ import verify from "@/app/_api/auth/VerifyEmailController";
 import forgot from "@/app/_api/auth/ForgotPasswordController";
 import reset from "@/app/_api/auth/ResetPasswordController";
 import updateUserProfile from "@/app/_api/user/UpdateUserProfileController";
+import changePassword from "@/app/_api/user/ChangePasswordController";
 
 // USER API
 import * as chat from "@/app/_api/chat/ChatHistoryController";
@@ -22,6 +23,7 @@ const $api = {
     chat,
     feedback,
     updateUserProfile,
+    changePassword,
   },
 };
 
