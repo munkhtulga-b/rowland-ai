@@ -40,9 +40,13 @@ const ChatSessionPage = () => {
     setIsFetching(true);
     const { isOk, data } = await $api.user.chat.getOne(sessionId, {
       sortBy: "created_at",
+      sortType: "asc",
     });
     if (isOk) {
       setHistoryChats(data);
+      setTimeout(() => {
+        scrollToBottom();
+      }, 500);
     }
     setIsFetching(false);
   };

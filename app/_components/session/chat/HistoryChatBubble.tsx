@@ -39,6 +39,7 @@ const HistoryChatBubble = ({ chat }: { chat: TypeHistoryChat }) => {
       if (isOk) {
         setSentFeedback(rating);
         openNotification("bottom");
+        hideChatFeedback();
       }
     } else {
       setIsSending(true);
@@ -48,9 +49,17 @@ const HistoryChatBubble = ({ chat }: { chat: TypeHistoryChat }) => {
         message: message,
       });
       if (isOk) {
+        hideChatFeedback();
         openNotification("bottom");
       }
       setIsSending(false);
+    }
+  };
+
+  const hideChatFeedback = () => {
+    const el = document.getElementById(`answer-${chat.Answer.id}`);
+    if (el) {
+      el.remove();
     }
   };
 
@@ -121,14 +130,17 @@ const HistoryChatBubble = ({ chat }: { chat: TypeHistoryChat }) => {
               rehypePlugins={[rehypeKatex]}
               className={"tw-text-base"}
             />
-            <ChatFeedback
-              sentFeedback={sentFeedback}
-              setSentFeedback={setSentFeedback}
-              handleFeedback={handleFeedback}
-              feedbackMessage={feedbackMessage}
-              setFeedbackMessage={setFeedbackMessage}
-              isSending={isSending}
-            />
+            {chat.Answer.feedback === null && (
+              <ChatFeedback
+                answerId={chat.Answer.id}
+                sentFeedback={sentFeedback}
+                setSentFeedback={setSentFeedback}
+                handleFeedback={handleFeedback}
+                feedbackMessage={feedbackMessage}
+                setFeedbackMessage={setFeedbackMessage}
+                isSending={isSending}
+              />
+            )}
           </section>
         </div>
       </div>
