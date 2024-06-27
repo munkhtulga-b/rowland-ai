@@ -58,7 +58,7 @@ export const passwordValidator = (value: string) => {
   if (value === undefined || value === null || value.length === 0) {
     return {
       isValid: false,
-      message: 'Password is required'
+      message: 'Please enter your password!'
     }
   }
   if (value.length < 8) {

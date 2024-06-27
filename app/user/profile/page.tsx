@@ -66,11 +66,11 @@ const UserProfilePage = () => {
           <UserProfileForm user={user} />
         </div>
 
-        <div className="tw-p-6 tw-rounded-2xl tw-bg-grayLight hover:tw-bg-slate-200">
+        <div className="">
           <ChangePasswordButton />
         </div>
 
-        <div className="tw-p-6 tw-rounded-2xl tw-bg-grayLight hover:tw-bg-slate-200">
+        <div className="">
           <LogoutButton />
         </div>
       </div>
