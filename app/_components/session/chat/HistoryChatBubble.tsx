@@ -10,11 +10,19 @@ import { TypeHistoryChat } from "@/app/_types/chat/TypeChat";
 import $api from "@/app/_api";
 import _EEnumChatFeedback from "@/app/_enums/EEnumChatFeedback";
 import { useEffect, useState } from "react";
+import { notification } from "antd";
+import type { NotificationArgsProps } from "antd";
+import ChatFeedback from "./ChatFeedback";
+
+type NotificationPlacement = NotificationArgsProps["placement"];
 
 const HistoryChatBubble = ({ chat }: { chat: TypeHistoryChat }) => {
+  const [api, _contextHolder] = notification.useNotification();
   const [sentFeedback, setSentFeedback] = useState<
     _EEnumChatFeedback._LIKE | _EEnumChatFeedback._DISLIKE | null
   >(null);
+  const [feedbackMessage, setFeedbackMessage] = useState<string>("");
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   useEffect(() => {
     if (chat.Answer.feedback && chat.Answer.feedback.rate !== null) {
@@ -22,19 +30,40 @@ const HistoryChatBubble = ({ chat }: { chat: TypeHistoryChat }) => {
     }
   }, [chat]);
 
-  const handleFeedback = async (rating: number) => {
-    if (sentFeedback !== null) return;
-    const { isOk } = await $api.user.feedback.send({
-      answer_id: chat.Answer.id,
-      rate: rating,
-    });
-    if (isOk) {
-      setSentFeedback(rating);
+  const handleFeedback = async (rating: number, message?: string) => {
+    if (rating === _EEnumChatFeedback._LIKE) {
+      const { isOk } = await $api.user.feedback.send({
+        answer_id: chat.Answer.id,
+        rate: rating,
+      });
+      if (isOk) {
+        setSentFeedback(rating);
+        openNotification("bottom");
+      }
+    } else {
+      setIsSending(true);
+      const { isOk } = await $api.user.feedback.send({
+        answer_id: chat.Answer.id,
+        rate: rating,
+        message: message,
+      });
+      if (isOk) {
+        openNotification("bottom");
+      }
+      setIsSending(false);
     }
+  };
+
+  const openNotification = (placement: NotificationPlacement) => {
+    api.info({
+      message: `Thank you for your feedback!`,
+      placement,
+    });
   };
 
   return (
     <>
+      {_contextHolder}
       <div className="tw-flex tw-flex-col tw-gap-[30px]">
         <div
           className={`tw-w-fit tw-self-end tw-flex tw-flex-col tw-justify-end`}
@@ -92,57 +121,14 @@ const HistoryChatBubble = ({ chat }: { chat: TypeHistoryChat }) => {
               rehypePlugins={[rehypeKatex]}
               className={"tw-text-base"}
             />
-            <div className="tw-flex tw-justify-between tw-items-center tw-gap-10">
-              <section className="tw-px-[10px] tw-py-2 tw-rounded-lg tw-bg-white tw-flex tw-justify-start tw-items-center tw-gap-3">
-                <span className="tw-text-primaryGray">
-                  Is this conversation helpful so far?
-                </span>
-                <div className="tw-flex tw-justify-start tw-items-center tw-gap-2">
-                  <Image
-                    src={`/assets/chat/thumb-up-${
-                      sentFeedback === _EEnumChatFeedback._LIKE
-                        ? "filled"
-                        : "outlined"
-                    }.svg`}
-                    alt="thumbs-up"
-                    width={0}
-                    height={0}
-                    style={{
-                      width: "auto",
-                      height: "auto",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleFeedback(_EEnumChatFeedback._LIKE)}
-                  />
-                  <Image
-                    src={`/assets/chat/thumb-down-${
-                      sentFeedback === _EEnumChatFeedback._DISLIKE
-                        ? "filled"
-                        : "outlined"
-                    }.svg`}
-                    alt="thumbs-down"
-                    width={0}
-                    height={0}
-                    style={{
-                      width: "auto",
-                      height: "auto",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleFeedback(_EEnumChatFeedback._DISLIKE)}
-                  />
-                </div>
-              </section>
-              <section className="tw-px-[10px] tw-py-2 tw-rounded-lg tw-bg-white tw-flex tw-justify-start tw-items-center tw-gap-2 tw-cursor-pointer">
-                <span>Source</span>
-                <Image
-                  src="/assets/chat/arrow-right.svg"
-                  alt="source"
-                  width={0}
-                  height={0}
-                  style={{ width: "auto", height: "auto" }}
-                />
-              </section>
-            </div>
+            <ChatFeedback
+              sentFeedback={sentFeedback}
+              setSentFeedback={setSentFeedback}
+              handleFeedback={handleFeedback}
+              feedbackMessage={feedbackMessage}
+              setFeedbackMessage={setFeedbackMessage}
+              isSending={isSending}
+            />
           </section>
         </div>
       </div>

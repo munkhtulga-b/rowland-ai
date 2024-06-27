@@ -33,9 +33,11 @@ const AppProvider = ({
             Input: {
               colorBgContainer: colors.colorFormItemBg,
               colorTextPlaceholder: colors.colorFormItemPlaceholder,
+              controlHeightSM: 50,
               controlHeight: 60,
               fontSize: 14,
               controlOutlineWidth: 0.5,
+              borderRadiusSM: 12,
               borderRadius: 12,
               colorBorder: colors.colorFormItemBg,
             },
