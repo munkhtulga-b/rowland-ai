@@ -78,11 +78,11 @@ const ExportCSVPage = () => {
   return (
     <Layout>
       <div className="tw-bg-white tw-rounded-[26px] tw-p-10 tw-w-full tw-flex tw-flex-col tw-gap-8 tw-h-full">
-        <h1 className="tw-text-lg tw-font-semibold">Detailed interaction log (History) (CSV)</h1>
+        <h1 className="tw-text-lg tw-font-semibold">Detailed interaction log (CSV)</h1>
         <Flex>
           <Space direction="horizontal" size={12}>
-            <DatePicker value={startDate}  onChange={onChangeStartDate} />
-            <DatePicker value={endDate} onChange={onChangeEndDate} disabledDate={(startDate) => {return startDate && startDate < dayjs(new Date).subtract(1,'days')}} />
+            <DatePicker placeholder='Start date' value={startDate}  onChange={onChangeStartDate} />
+            <DatePicker placeholder='End date' value={endDate} onChange={onChangeEndDate} disabledDate={(startDate) => {return startDate && startDate < dayjs(new Date).subtract(1,'days')}} />
             <Button
               style={{
                 height: '0',

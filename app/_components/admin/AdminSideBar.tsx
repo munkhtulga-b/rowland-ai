@@ -24,8 +24,8 @@ const AdminSideBar = () => {
     const router = useRouter();
 
     const onClick: MenuProps['onClick'] = (e) => {
-        if (e.key === 'chatbot') router.push('/chat')
-        else router.push('/admin/' + e.key)
+        // if (e.key === 'chatbot') router.push('/chat')
+        router.push('/admin/' + e.key)
         setCurrent(e.key);
     };
 
