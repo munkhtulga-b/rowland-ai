@@ -1,6 +1,7 @@
 "use client";
 
 import { TypeResetPasswordRequest } from "@/app/_types/auth/TypeResetPasswordBody";
+import { passwordValidator } from "@/app/_utils/helpers";
 import { Button, Form, Input } from "antd";
 import _ from "lodash";
 
@@ -39,8 +40,18 @@ const ResetPasswordForm = ({
           rules={[
             {
               required: true,
-              message: "Please input your password!",
             },
+            () => ({
+              validator(_, value) {
+                const isPasswordValid = passwordValidator(value);
+                if (isPasswordValid.isValid) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error(isPasswordValid.message)
+                );
+              },
+            }),
           ]}
         >
           <Input.Password placeholder="Password" />

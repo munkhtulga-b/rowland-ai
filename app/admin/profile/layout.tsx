@@ -11,7 +11,6 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
   const containerPaddingTop = 38;
   const containerPaddingBottom = 24;
   const containerHorizontalPadding = 24;
-  const pageVerticalPadding = 0;
 
   useEffect(() => {
     if (windowWidth) {
@@ -36,12 +35,7 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
             }}
             className="tw-flex-1 tw-flex tw-justify-center tw-gap-10"
           >
-            <div
-              style={{
-                marginBottom: windowWidth < 768 ? 180 : 150,
-                paddingTop: pageVerticalPadding,
-              }}
-            >
+            <div className="tw-flex tw-items-center" >
               <Suspense fallback={<></>}>{children}</Suspense>
             </div>
           </section>

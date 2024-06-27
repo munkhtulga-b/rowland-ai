@@ -17,7 +17,7 @@ const LogoutButton = () => {
     }
 
     return <>
-        <div className="tw-flex tw-flex-row tw-justify-between hover:tw-cursor-pointer" onClick={onLogOut}>
+        <div className="tw-p-6 tw-rounded-2xl tw-bg-grayLight hover:tw-bg-slate-200 tw-flex tw-flex-row tw-justify-between hover:tw-cursor-pointer" onClick={onLogOut}>
             <div className="tw-text-lg tw-text-secondaryGray tw-font-medium">Log out</div>
             <div className="tw-min-w-[24px] tw-max-w-[24px] tw-min-h-[24px] tw-max-h-[24px]">
                 <Image

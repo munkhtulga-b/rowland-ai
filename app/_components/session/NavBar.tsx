@@ -4,15 +4,25 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'
-// import _EEnumUserTypes from "../../app/_enums/EEnumUserTypes";
+import _EEnumUserTypes from "@/app/_enums/EEnumUserTypes";
+import { useUserStore } from "@/app/_store/user-store";
 
 const SessionNavBar = ({ height }: { height: number }) => {
   const [user, setUser] = useState("");
+  const { user: userr } = useUserStore()
   const router = useRouter()
 
   useEffect(() => {
     setUser(Cookies.get("user") ?? "");
   }, []);
+
+  const onProfile = () => {
+    if (userr?.role == "ADMIN") {
+      router.push('/admin/profile')
+    } else {
+      router.push('/user/profile')
+    }
+  }
 
   return (
     <>
@@ -30,7 +40,7 @@ const SessionNavBar = ({ height }: { height: number }) => {
           priority
         />
         <div
-          onClick={() => router.push('/user/profile')}
+          onClick={onProfile}
           className="tw-bg-white tw-rounded-full tw-min-w-[44px] tw-max-w-[44px] tw-min-h-[44px] tw-max-h-[44px] tw-grid tw-place-items-center tw-overflow-clip hover:tw-cursor-pointer"
         >
           <>
