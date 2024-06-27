@@ -11,12 +11,13 @@ const items: MenuItem[] = [
         label: 'History',
         key: 'history',
         icon: <HistoryOutlined />,
-    },
-    {
-        label: 'Chat bot',
-        key: 'chat',
-        icon: <MessageOutlined />,
     }
+    // ,
+    // {
+    //     label: 'Chat bot',
+    //     key: 'chat',
+    //     icon: <MessageOutlined />,
+    // }
 ]
 
 const AdminSideBar = () => {
