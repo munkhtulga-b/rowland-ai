@@ -4,7 +4,7 @@ import { Modal, Button, Form, Input } from "antd";
 import { TypeChangePassword } from "@/app/_types/user/TypeProfileUpdateUser";
 import _ from "lodash";
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import $api from '@/app/_api';
 import { passwordValidator } from '@/app/_utils/helpers';
 
@@ -34,7 +34,7 @@ const ChangePasswordButton = () => {
             newPassword: body.newPassword || ""
         });
 
-        if(isOk) {
+        if (isOk) {
             handleOk()
             toast("Password has been changed successfully");
         } else {
@@ -97,18 +97,8 @@ const ChangePasswordButton = () => {
                 rules={[
                     {
                         required: true,
+                        message: "Please input your old password!",
                     },
-                    () => ({
-                        validator(_, value) {
-                          const isPasswordValid = passwordValidator(value);
-                          if (isPasswordValid.isValid) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(
-                            new Error(isPasswordValid.message)
-                          );
-                        },
-                      }),
                 ]}
             >
                 <Input.Password placeholder="Old password" />
@@ -119,8 +109,18 @@ const ChangePasswordButton = () => {
                 rules={[
                     {
                         required: true,
-                        message: "Please input your new password!",
                     },
+                    () => ({
+                        validator(_, value) {
+                            const isPasswordValid = passwordValidator(value);
+                            if (isPasswordValid.isValid) {
+                                return Promise.resolve();
+                            }
+                            return Promise.reject(
+                                new Error(isPasswordValid.message)
+                            );
+                        },
+                    }),
                 ]}
             >
                 <Input.Password placeholder="New password" />
