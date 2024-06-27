@@ -32,11 +32,7 @@ const LoginPage = () => {
           expires: new Date(data.tokens.access.expires),
         });
       }
-      if (data.user.role === "USER") {
-        router.push(`/`);
-      } else {
-        router.push("/admin/history");
-      }
+      router.push(data.user.role === "USER" ? "/chat" : "/admin/history");
     } else {
       setIsLoading(false);
     }
