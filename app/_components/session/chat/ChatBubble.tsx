@@ -10,10 +10,15 @@ import { useEffect, useRef, useState } from "react";
 import { Readable } from "readable-stream";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { TypePromtChat } from "@/app/_types/chat/TypeChat";
 import _EEnumChatFeedback from "@/app/_enums/EEnumChatFeedback";
 import $api from "@/app/_api";
+import ChatFeedback from "./ChatFeedback";
+import { notification } from "antd";
+import type { NotificationArgsProps } from "antd";
+
+type NotificationPlacement = NotificationArgsProps["placement"];
 
 const ChatBubble = ({
   chat,
@@ -29,15 +34,15 @@ const ChatBubble = ({
 }) => {
   const isInitialMount = useRef(true);
   const user = Cookies.get("user");
+  const [api, contextHolder] = notification.useNotification();
   const [streamMessage, setStreamMessage] = useState("");
   const [answerId, setAnswerId] = useState<number | null>(null);
   const [sentFeedback, setSentFeedback] = useState<
     _EEnumChatFeedback._LIKE | _EEnumChatFeedback._DISLIKE | null
   >(null);
-
-  useEffect(() => {
-    console.log(answerId);
-  }, [answerId]);
+  const [feedbackMessage, setFeedbackMessage] = useState<string>("");
+  const [hasFeedback, setHasFeedback] = useState<boolean>(false);
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") {
@@ -51,15 +56,44 @@ const ChatBubble = ({
     }
   }, [chat]);
 
-  const handleFeedback = async (rating: number) => {
-    if (!answerId || sentFeedback !== null) return;
-    const { isOk } = await $api.user.feedback.send({
-      answer_id: answerId,
-      rate: rating,
-    });
-    if (isOk) {
-      setSentFeedback(rating);
+  useEffect(() => {
+    if (sentFeedback !== null) {
+      scrollToBottom();
     }
+  }, [sentFeedback]);
+
+  const handleFeedback = async (rating: number, message?: string) => {
+    if (!answerId) return;
+    if (rating === _EEnumChatFeedback._LIKE) {
+      const { isOk } = await $api.user.feedback.send({
+        answer_id: answerId,
+        rate: rating,
+      });
+      if (isOk) {
+        setSentFeedback(rating);
+        openNotification("bottom");
+        setHasFeedback(true);
+      }
+    } else {
+      setIsSending(true);
+      const { isOk } = await $api.user.feedback.send({
+        answer_id: answerId,
+        rate: rating,
+        message: message,
+      });
+      if (isOk) {
+        setHasFeedback(true);
+        openNotification("bottom");
+      }
+      setIsSending(false);
+    }
+  };
+
+  const openNotification = (placement: NotificationPlacement) => {
+    api.info({
+      message: `Thank you for your feedback!`,
+      placement,
+    });
   };
 
   const streamChat = async () => {
@@ -104,12 +138,20 @@ const ChatBubble = ({
             this.push(null);
             setIsStreaming(false);
           } else {
+            this.push(Buffer.from(value));
             const stringValue = Buffer.from(value).toString("utf-8");
             if (stringValue.match(/%%([^%]+)%%/g)) {
-              this.push(Buffer.from(value));
-              setAnswerId(Number(stringValue.replace(/%/g, "")));
+              if (!isNaN(Number(stringValue.replace(/%/g, "")))) {
+                setAnswerId(Number(stringValue.replace(/%/g, "")));
+              } else {
+                setStreamMessage((prev) => prev + stringValue.split("%")[0]);
+                const matched = stringValue.match(/%(\d+)%/);
+                if (matched?.length) {
+                  const id = matched[1];
+                  setAnswerId(Number(id));
+                }
+              }
             } else {
-              this.push(Buffer.from(value));
               setStreamMessage(
                 (prev) => prev + Buffer.from(value).toString("utf-8")
               );
@@ -136,6 +178,7 @@ const ChatBubble = ({
 
   return (
     <>
+      {contextHolder}
       <div
         className={`tw-w-fit ${
           chat?.user === "USER" ? "tw-self-end" : "tw-self-start"
@@ -209,72 +252,17 @@ const ChatBubble = ({
                     rehypePlugins={[rehypeKatex]}
                     className={"tw-text-base"}
                   />
-                  <AnimatePresence>
-                    {!isStreaming && (
-                      <>
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ duration: 0.5 }}
-                          className="tw-flex tw-justify-between tw-items-center tw-gap-10"
-                        >
-                          <section className="tw-px-[10px] tw-py-2 tw-rounded-lg tw-bg-white tw-flex tw-justify-start tw-items-center tw-gap-3">
-                            <span className="tw-text-primaryGray">
-                              Is this conversation helpful so far?
-                            </span>
-                            <div className="tw-flex tw-justify-start tw-items-center tw-gap-2">
-                              <Image
-                                src={`/assets/chat/thumb-up-${
-                                  sentFeedback === _EEnumChatFeedback._LIKE
-                                    ? "filled"
-                                    : "outlined"
-                                }.svg`}
-                                alt="thumbs-up"
-                                width={0}
-                                height={0}
-                                style={{
-                                  width: "auto",
-                                  height: "auto",
-                                  cursor: "pointer",
-                                }}
-                                onClick={() =>
-                                  handleFeedback(_EEnumChatFeedback._LIKE)
-                                }
-                              />
-                              <Image
-                                src={`/assets/chat/thumb-down-${
-                                  sentFeedback === _EEnumChatFeedback._DISLIKE
-                                    ? "filled"
-                                    : "outlined"
-                                }.svg`}
-                                alt="thumbs-down"
-                                width={0}
-                                height={0}
-                                style={{
-                                  width: "auto",
-                                  height: "auto",
-                                  cursor: "pointer",
-                                }}
-                                onClick={() =>
-                                  handleFeedback(_EEnumChatFeedback._DISLIKE)
-                                }
-                              />
-                            </div>
-                          </section>
-                          <section className="tw-px-[10px] tw-py-2 tw-rounded-lg tw-bg-white tw-flex tw-justify-start tw-items-center tw-gap-2 tw-cursor-pointer">
-                            <span>Source</span>
-                            <Image
-                              src="/assets/chat/arrow-right.svg"
-                              alt="source"
-                              width={0}
-                              height={0}
-                              style={{ width: "auto", height: "auto" }}
-                            />
-                          </section>
-                        </motion.div>
-                      </>
-                    )}
-                  </AnimatePresence>
+                  {hasFeedback === false && answerId && (
+                    <ChatFeedback
+                      answerId={answerId}
+                      sentFeedback={sentFeedback}
+                      setSentFeedback={setSentFeedback}
+                      handleFeedback={handleFeedback}
+                      feedbackMessage={feedbackMessage}
+                      setFeedbackMessage={setFeedbackMessage}
+                      isSending={isSending}
+                    />
+                  )}
                 </>
               ) : (
                 <div

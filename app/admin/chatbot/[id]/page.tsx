@@ -10,7 +10,7 @@ import $api from "@/app/_api";
 import HistoryChatBubble from "@/app/_components/session/chat/HistoryChatBubble";
 import { useNewSessionStore } from "@/app/_store/new-session-store";
 
-const ChatSessionPage = () => {
+const AdminChatbotPage = () => {
   const { id: sessionId }: { id: string } = useParams();
 
   const getNewSession = useNewSessionStore((state) => state.getSession());
@@ -40,13 +40,9 @@ const ChatSessionPage = () => {
     setIsFetching(true);
     const { isOk, data } = await $api.user.chat.getOne(sessionId, {
       sortBy: "created_at",
-      sortType: "asc",
     });
     if (isOk) {
       setHistoryChats(data);
-      setTimeout(() => {
-        scrollToBottom();
-      }, 500);
     }
     setIsFetching(false);
   };
@@ -134,4 +130,4 @@ const ChatSessionPage = () => {
   );
 };
 
-export default ChatSessionPage;
+export default AdminChatbotPage;

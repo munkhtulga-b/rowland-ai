@@ -53,3 +53,27 @@ export const createQueryString = <T>(queryObject: T | undefined) => {
 
   return queryString;
 };
+
+export const passwordValidator = (value: string) => {
+  if (value === undefined || value === null || value.length === 0) {
+    return {
+      isValid: false,
+      message: 'Password is required'
+    }
+  }
+  if (value.length < 8) {
+    return {
+      isValid: false,
+      message: 'Password must be at least 8 characters'
+    }
+  }
+  if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
+    return {
+      isValid: false,
+      message: 'Password must contain at least 1 letter and 1 number'
+    }
+  }
+  return {
+    isValid: true,
+  };
+};

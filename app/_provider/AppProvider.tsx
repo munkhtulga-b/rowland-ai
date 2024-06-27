@@ -1,5 +1,9 @@
 import React from "react";
 import { ConfigProvider } from "antd";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 const colors = {
   primary: "#4FBA70",
@@ -33,9 +37,11 @@ const AppProvider = ({
             Input: {
               colorBgContainer: colors.colorFormItemBg,
               colorTextPlaceholder: colors.colorFormItemPlaceholder,
+              controlHeightSM: 50,
               controlHeight: 60,
               fontSize: 14,
               controlOutlineWidth: 0.5,
+              borderRadiusSM: 12,
               borderRadius: 12,
               colorBorder: colors.colorFormItemBg,
             },

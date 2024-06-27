@@ -1,8 +1,11 @@
 "use client";
 
+import { ReactNode } from 'react'
 import { TypeSignupRequest } from "@/app/_types/auth/TypeSignupBody";
+import type { RequiredMark } from "antd/es/form/Form"
 import { Button, Form, Input } from "antd";
 import _ from "lodash";
+import { passwordValidator } from '@/app/_utils/helpers';
 
 interface ExtendedSignupRequest extends TypeSignupRequest {
   confirm: string;
@@ -18,9 +21,19 @@ const SignupForm = ({
   const [form] = Form.useForm<ExtendedSignupRequest>();
 
   const beforeComplete = (params: ExtendedSignupRequest) => {
+    if (!params.companyName?.length) {
+      delete params.companyName
+    }
     const body = _.omit(params, ["confirm"]);
     onComplete(body);
   };
+
+  const customizeRequiredMark: RequiredMark = (label: ReactNode, { required } : {required: boolean}) => (
+    <>
+      {label}
+      {required && <span className="tw-ml-1 tw-text-red-500">*</span>}
+    </>
+  );
 
   return (
     <>
@@ -29,26 +42,29 @@ const SignupForm = ({
         name="signup-form"
         onFinish={beforeComplete}
         layout="vertical"
-        requiredMark={false}
+        requiredMark={customizeRequiredMark}
+        validateTrigger="onChange"
       >
         <section className="tw-flex tw-justify-start tw-gap-6">
           <Form.Item
             name="firstName"
-            label="First name"
+            label="First Name"
             rules={[
               { required: true, message: "Please input your first name!" },
             ]}
             style={{ flex: 1 }}
+            required
           >
             <Input placeholder="First name" />
           </Form.Item>
           <Form.Item
             name="lastName"
-            label="Last name"
+            label="Last Name"
             rules={[
               { required: true, message: "Please input your last name!" },
             ]}
             style={{ flex: 1 }}
+            required
           >
             <Input placeholder="Last name" />
           </Form.Item>
@@ -57,7 +73,6 @@ const SignupForm = ({
         <Form.Item
           name="companyName"
           label="Company"
-          rules={[{ required: true, message: "Please input your company!" }]}
           style={{ flex: 1 }}
         >
           <Input placeholder="Company" />
@@ -73,6 +88,7 @@ const SignupForm = ({
               message: "Please input your email!",
             },
           ]}
+          required
           style={{ flex: 1 }}
         >
           <Input placeholder="Email" />
@@ -84,10 +100,21 @@ const SignupForm = ({
           rules={[
             {
               required: true,
-              message: "Please input your password!",
             },
+            () => ({
+              validator(_, value) {
+                const isPasswordValid = passwordValidator(value);
+                if (isPasswordValid.isValid) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error(isPasswordValid.message)
+                );
+              },
+            }),
           ]}
-        >
+          required
+          >
           <Input.Password placeholder="Password" />
         </Form.Item>
 
@@ -96,6 +123,7 @@ const SignupForm = ({
           label="Repeat password"
           dependencies={["password"]}
           hasFeedback
+          required
           rules={[
             {
               required: true,

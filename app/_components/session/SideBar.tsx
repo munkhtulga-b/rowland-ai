@@ -9,6 +9,9 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 const SessionSideBar = () => {
   const router = useRouter();
@@ -24,6 +27,7 @@ const SessionSideBar = () => {
     setIsLoading(true);
     const { isOk, data } = await $api.user.chat.getMany({
       sortBy: "created_at",
+      sortType: "desc",
     });
     if (isOk) {
       sortHistory(data);
@@ -36,33 +40,33 @@ const SessionSideBar = () => {
     const sortedData: TypeHistoryItem[] = [];
     data.forEach((item) => {
       const currentDate = dayjs();
-      if (dayjs(item.created_at).isSame(currentDate, "day")) {
+      if (dayjs.utc(item.created_at).isSame(currentDate, "day")) {
         sortedData.push({
           ...item,
           label: "Today",
         });
       } else if (
-        dayjs(item.created_at).isSame(currentDate.subtract(1, "day"), "day")
+        dayjs.utc(item.created_at).isSame(currentDate.subtract(1, "day"), "day")
       ) {
         sortedData.push({
           ...item,
           label: "Yesterday",
         });
       } else if (
-        dayjs(item.created_at).isAfter(dayjs().startOf("month")) &&
-        dayjs(item.created_at).isBefore(
-          dayjs().endOf("month").subtract(2, "day")
-        )
+        dayjs.utc(item.created_at).isAfter(dayjs().startOf("month")) &&
+        dayjs
+          .utc(item.created_at)
+          .isBefore(dayjs().endOf("month").subtract(2, "day"))
       ) {
         sortedData.push({
           ...item,
           label: "This month",
         });
       } else if (
-        dayjs(item.created_at).isAfter(dayjs().startOf("year")) &&
-        dayjs(item.created_at).isBefore(
-          dayjs().endOf("year").subtract(2, "day")
-        )
+        dayjs.utc(item.created_at).isAfter(dayjs().startOf("year")) &&
+        dayjs
+          .utc(item.created_at)
+          .isBefore(dayjs().endOf("year").subtract(2, "day"))
       ) {
         sortedData.push({
           ...item,
