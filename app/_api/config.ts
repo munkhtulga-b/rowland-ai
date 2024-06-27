@@ -48,10 +48,8 @@ const fetchData = async <T, U>(
         };
       };
       toast.error(error.error.message);
-      if (process.env.NODE_ENV === "development") {
-        if (status === 401) {
-          redirectUnauthorized();
-        }
+      if (status === 401) {
+        redirectUnauthorized();
       }
     }
 

@@ -10,6 +10,7 @@ const ChatFeedback = ({
   setSentFeedback,
   feedbackMessage,
   setFeedbackMessage,
+  hasFeedbackMessage,
   isSending,
 }: {
   answerId: number;
@@ -20,6 +21,7 @@ const ChatFeedback = ({
   handleFeedback: (_rating: number, _message?: string) => Promise<void>;
   feedbackMessage: string;
   setFeedbackMessage: (_message: string) => void;
+  hasFeedbackMessage: boolean;
   isSending: boolean;
 }) => {
   return (
@@ -76,56 +78,59 @@ const ChatFeedback = ({
             />
           </section>
         </div>
-        {sentFeedback === _EEnumChatFeedback._DISLIKE && (
-          <div className="tw-flex tw-flex-col tw-gap-1">
-            <span className="tw-text-base tw-font-medium">
-              Give us feedback:
-            </span>
-            <div className="tw-flex tw-justify-start tw-items-end tw-gap-3">
-              <Input
-                size="small"
-                placeholder="Write your feeback here..."
-                style={{ flex: 1, backgroundColor: "#FFF" }}
-                value={feedbackMessage}
-                onChange={(e) => setFeedbackMessage(e.target.value)}
-                disabled={isSending}
-                onKeyDown={(e) => {
-                  if (
-                    e.key === "Enter" &&
-                    !e.shiftKey &&
-                    !isSending &&
-                    /\S/.test(feedbackMessage)
-                  ) {
-                    handleFeedback(sentFeedback, feedbackMessage);
-                  }
-                }}
-              />
-              <Button
-                disabled={!/\S/.test(feedbackMessage) || isSending}
-                type="primary"
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 8,
-                  backgroundColor: "#FFF",
-                }}
-                onClick={() => handleFeedback(sentFeedback, feedbackMessage)}
-              >
-                {!isSending ? (
-                  <Image
-                    src={"/assets/chat/send-icon-green.svg"}
-                    alt="send-icon"
-                    width={0}
-                    height={0}
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                ) : (
-                  <LoadingOutlined style={{ fontSize: 25, color: "#4FBA70" }} />
-                )}
-              </Button>
+        {sentFeedback === _EEnumChatFeedback._DISLIKE &&
+          !hasFeedbackMessage && (
+            <div className="tw-flex tw-flex-col tw-gap-1">
+              <span className="tw-text-base tw-font-medium">
+                Give us feedback:
+              </span>
+              <div className="tw-flex tw-justify-start tw-items-end tw-gap-3">
+                <Input
+                  size="small"
+                  placeholder="Write your feeback here..."
+                  style={{ flex: 1, backgroundColor: "#FFF" }}
+                  value={feedbackMessage}
+                  onChange={(e) => setFeedbackMessage(e.target.value)}
+                  disabled={isSending}
+                  onKeyDown={(e) => {
+                    if (
+                      e.key === "Enter" &&
+                      !e.shiftKey &&
+                      !isSending &&
+                      /\S/.test(feedbackMessage)
+                    ) {
+                      handleFeedback(sentFeedback, feedbackMessage);
+                    }
+                  }}
+                />
+                <Button
+                  disabled={!/\S/.test(feedbackMessage) || isSending}
+                  type="primary"
+                  style={{
+                    width: 50,
+                    height: 50,
+                    borderRadius: 8,
+                    backgroundColor: "#FFF",
+                  }}
+                  onClick={() => handleFeedback(sentFeedback, feedbackMessage)}
+                >
+                  {!isSending ? (
+                    <Image
+                      src={"/assets/chat/send-icon-green.svg"}
+                      alt="send-icon"
+                      width={0}
+                      height={0}
+                      style={{ width: "auto", height: "auto" }}
+                    />
+                  ) : (
+                    <LoadingOutlined
+                      style={{ fontSize: 25, color: "#4FBA70" }}
+                    />
+                  )}
+                </Button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     </>
   );

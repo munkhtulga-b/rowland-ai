@@ -41,8 +41,8 @@ const ChatBubble = ({
     _EEnumChatFeedback._LIKE | _EEnumChatFeedback._DISLIKE | null
   >(null);
   const [feedbackMessage, setFeedbackMessage] = useState<string>("");
-  const [hasFeedback, setHasFeedback] = useState<boolean>(false);
   const [isSending, setIsSending] = useState<boolean>(false);
+  const [hasFeedbackMessage, setHasFeedbackMessage] = useState<boolean>(false);
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "development") {
@@ -72,7 +72,6 @@ const ChatBubble = ({
       if (isOk) {
         setSentFeedback(rating);
         openNotification("bottom");
-        setHasFeedback(true);
       }
     } else {
       setIsSending(true);
@@ -82,7 +81,7 @@ const ChatBubble = ({
         message: message,
       });
       if (isOk) {
-        setHasFeedback(true);
+        setHasFeedbackMessage(true);
         openNotification("bottom");
       }
       setIsSending(false);
@@ -252,7 +251,7 @@ const ChatBubble = ({
                     rehypePlugins={[rehypeKatex]}
                     className={"tw-text-base"}
                   />
-                  {hasFeedback === false && answerId && (
+                  {answerId && (
                     <ChatFeedback
                       answerId={answerId}
                       sentFeedback={sentFeedback}
@@ -260,6 +259,7 @@ const ChatBubble = ({
                       handleFeedback={handleFeedback}
                       feedbackMessage={feedbackMessage}
                       setFeedbackMessage={setFeedbackMessage}
+                      hasFeedbackMessage={hasFeedbackMessage}
                       isSending={isSending}
                     />
                   )}

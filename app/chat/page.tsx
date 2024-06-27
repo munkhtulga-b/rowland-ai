@@ -24,12 +24,18 @@ const SessionHomePage = () => {
       session: [
         {
           id: 1,
+          message: "Hi, I'm Rowland. How can i assist you today?",
+          user: "BOT",
+          created_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
+        },
+        {
+          id: 2,
           message: promptValue,
           user: "USER",
           created_at: dayjs().format("YYYY-MM-DD HH:mm:ss"),
         },
         {
-          id: 2,
+          id: 3,
           question: promptValue,
           message: ".",
           user: "BOT",
