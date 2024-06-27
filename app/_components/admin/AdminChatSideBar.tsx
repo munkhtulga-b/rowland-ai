@@ -110,7 +110,7 @@ const AdminChatSideBar = () => {
                                 : ""
                             } tw-m-0 tw-p-2 tw-rounded tw-cursor-pointer tw-truncate`}
                             onClick={() =>
-                              router.push(`/chat/${item.session_id}`)
+                              router.push(`/admin/chat/${item.session_id}`)
                             }
                           >
                             <span className="tw-text-primaryGray tw-font-medium">
@@ -130,7 +130,7 @@ const AdminChatSideBar = () => {
         ) : null}
         <div
           className="tw-absolute tw-left-6 tw-right-6 tw-bottom-10 tw-p-2 tw-rounded-lg tw-cursor-pointer hover:tw-bg-grayMedium tw-transition-all tw-duration-200"
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/admin/chat")}
         >
           <section className="tw-flex tw-justify-start tw-items-center tw-gap-3">
             <Image
