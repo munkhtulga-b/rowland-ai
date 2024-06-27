@@ -1,5 +1,9 @@
 import React from "react";
 import { ConfigProvider } from "antd";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(utc);
 
 const colors = {
   primary: "#4FBA70",
