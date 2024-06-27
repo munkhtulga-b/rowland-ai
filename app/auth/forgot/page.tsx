@@ -24,7 +24,7 @@ const ForgotPasswordPage = () => {
       {!sentEmailAddress ? (
         <div className="tw-flex tw-flex-col tw-gap-8 tw-w-[520px]">
           <section className="tw-flex tw-justify-center">
-            <span className="tw-text-3xl tw-font-medium">Forgot password</span>
+            <span className="tw-text-3xl tw-font-medium">Forgot your password?</span>
           </section>
           <section>
             <ForgotPasswordForm

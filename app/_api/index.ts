@@ -4,6 +4,7 @@ import register from "@/app/_api/auth/SignupController";
 import verify from "@/app/_api/auth/VerifyEmailController";
 import forgot from "@/app/_api/auth/ForgotPasswordController";
 import reset from "@/app/_api/auth/ResetPasswordController";
+import logout from "@/app/_api/auth/LogoutController";
 import updateUserProfile from "@/app/_api/user/UpdateUserProfileController";
 import changePassword from "@/app/_api/user/ChangePasswordController";
 
@@ -18,6 +19,7 @@ const $api = {
     verify,
     forgot,
     reset,
+    logout,
   },
   user: {
     chat,

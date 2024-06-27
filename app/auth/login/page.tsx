@@ -52,12 +52,12 @@ const LoginPage = () => {
           <LoginForm onLogin={onLogin} isLoading={isLoading} />
         </section>
         <section className="tw-flex tw-justify-center tw-gap-2">
-          <span className="tw-text-base">Create a new account</span>
+          <span className="tw-text-base">Don{"'"}t have an account?</span>
           <span
             onClick={() => router.push("/auth/sign-up")}
             className="tw-text-base tw-text-primaryGreen tw-underline tw-underline-offset-4 tw-cursor-pointer"
           >
-            Sign up
+            Sign up here!
           </span>
         </section>
       </div>

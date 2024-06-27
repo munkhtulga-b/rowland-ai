@@ -3,16 +3,21 @@
 import { Form, Input, Button } from "antd";
 import { useState } from 'react'
 import TypeUser from "@/app/_types/auth/TypeUser";
+import { useRouter } from "next/navigation";
 import _ from "lodash";
 import { TypeProfileUpdateUser } from "@/app/_types/user/TypeProfileUpdateUser";
 import $api from "@/app/_api";
-import { toast } from "react-toastify";
+import Cookies from "js-cookie";
+// import { toast } from "react-toastify";
+import { useUserStore } from "@/app/_store/user-store";
+import _EEnumUserTypes from "@/app/_enums/EEnumUserTypes";
 
 const UserProfileForm = ({ user }: { user: TypeUser }) => {
 
   const [form] = Form.useForm<TypeProfileUpdateUser>();
   const [isLoading, setIsLoading] = useState(false);
-  
+  const setUser = useUserStore((state) => state.setUser);
+  const router = useRouter();
 
   const updateUserProfile = async (params: TypeProfileUpdateUser) => {
     const body = _.omit(params, ["confirm"]);
@@ -26,8 +31,16 @@ const UserProfileForm = ({ user }: { user: TypeUser }) => {
     setIsLoading(true);
     const { isOk, data } = await $api.user.updateUserProfile(updateUser, user.id);
     if (isOk) {
-      toast.success
       console.log(data)
+      setUser(data);
+      Cookies.set("session", "true");
+      Cookies.set(
+        "x-user-type",
+        data.role === "USER"
+          ? _EEnumUserTypes._USER
+          : _EEnumUserTypes._ADMIN
+      );
+      router.refresh()
     }
     setIsLoading(false);
   }

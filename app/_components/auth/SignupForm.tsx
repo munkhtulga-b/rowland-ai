@@ -5,6 +5,7 @@ import { TypeSignupRequest } from "@/app/_types/auth/TypeSignupBody";
 import type { RequiredMark } from "antd/es/form/Form"
 import { Button, Form, Input } from "antd";
 import _ from "lodash";
+import { passwordValidator } from '@/app/_utils/helpers';
 
 interface ExtendedSignupRequest extends TypeSignupRequest {
   confirm: string;
@@ -42,6 +43,7 @@ const SignupForm = ({
         onFinish={beforeComplete}
         layout="vertical"
         requiredMark={customizeRequiredMark}
+        validateTrigger="onChange"
       >
         <section className="tw-flex tw-justify-start tw-gap-6">
           <Form.Item
@@ -98,8 +100,18 @@ const SignupForm = ({
           rules={[
             {
               required: true,
-              message: "Please input your password!",
             },
+            () => ({
+              validator(_, value) {
+                const isPasswordValid = passwordValidator(value);
+                if (isPasswordValid.isValid) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error(isPasswordValid.message)
+                );
+              },
+            }),
           ]}
           required
           >
