@@ -67,7 +67,7 @@ const ChatFeedback = ({
               />
             </div>
           </section>
-          <section className="tw-px-[10px] tw-py-2 tw-rounded-lg tw-bg-white tw-flex tw-justify-start tw-items-center tw-gap-2 tw-cursor-pointer">
+          {/* <section className="tw-px-[10px] tw-py-2 tw-rounded-lg tw-bg-white tw-flex tw-justify-start tw-items-center tw-gap-2 tw-cursor-pointer">
             <span>Source</span>
             <Image
               src="/assets/chat/arrow-right.svg"
@@ -76,7 +76,7 @@ const ChatFeedback = ({
               height={0}
               style={{ width: "auto", height: "auto" }}
             />
-          </section>
+          </section> */}
         </div>
         {sentFeedback === _EEnumChatFeedback._DISLIKE &&
           !hasFeedbackMessage && (
