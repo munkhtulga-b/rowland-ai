@@ -6,6 +6,7 @@ import _ from "lodash";
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import $api from '@/app/_api';
+import { passwordValidator } from '@/app/_utils/helpers';
 
 const ChangePasswordButton = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,7 +44,7 @@ const ChangePasswordButton = () => {
     };
 
     return <>
-        <div className="tw-flex tw-text-2xl tw-text-secondaryGray tw-flex-row tw-justify-between hover:tw-cursor-pointer" onClick={showModal}>
+        <div className="tw-p-6 tw-rounded-2xl tw-bg-grayLight hover:tw-bg-slate-200 tw-flex tw-text-2xl tw-text-secondaryGray tw-flex-row tw-justify-between hover:tw-cursor-pointer" onClick={showModal}>
             <div className="tw-flex tw-flex-row tw-items-center tw-gap-4">
                 <LockOutlined />
                 <div className="tw-text-lg tw-font-medium">Change password</div>
@@ -96,8 +97,18 @@ const ChangePasswordButton = () => {
                 rules={[
                     {
                         required: true,
-                        message: "Please input your old password!",
                     },
+                    () => ({
+                        validator(_, value) {
+                          const isPasswordValid = passwordValidator(value);
+                          if (isPasswordValid.isValid) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(
+                            new Error(isPasswordValid.message)
+                          );
+                        },
+                      }),
                 ]}
             >
                 <Input.Password placeholder="Old password" />
