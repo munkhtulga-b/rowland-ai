@@ -100,6 +100,7 @@ const SignupForm = ({
           rules={[
             {
               required: true,
+              message: "",
             },
             () => ({
               validator(_, value) {
