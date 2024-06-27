@@ -11,12 +11,13 @@ const items: MenuItem[] = [
         label: 'History',
         key: 'history',
         icon: <HistoryOutlined />,
-    },
-    {
-        label: 'Chat bot',
-        key: 'chatbot',
-        icon: <MessageOutlined />,
     }
+    // ,
+    // {
+    //     label: 'Chat bot',
+    //     key: 'chat',
+    //     icon: <MessageOutlined />,
+    // }
 ]
 
 const AdminSideBar = () => {
@@ -36,7 +37,7 @@ const AdminSideBar = () => {
     };
     // border-inline-end
     return (
-        <div className="tw-flex tw-flex-col tw-justify-between tw-bg-white tw-rounded-[26px] tw-p-10 tw-w-auto" style={{ height: 'calc(100%)'}}>
+        <div className="tw-flex tw-flex-col tw-justify-between tw-bg-white tw-rounded-[26px] tw-p-10 tw-w-auto" style={{ height: '100%' }}>
             <Menu
                 onClick={onClick}
                 selectedKeys={[current]}
@@ -49,7 +50,7 @@ const AdminSideBar = () => {
                 }}
                 className='tw-transition-none'
             />
-            <Button 
+            {/* <Button 
                 onClick={toggleCollapsed} 
                 style={{
                     height: 50,
@@ -57,7 +58,7 @@ const AdminSideBar = () => {
                     transform: `rotate(${collapsed ? '180deg' : '0'})`
                 }} 
                 icon={<LeftOutlined />} 
-            />
+            /> */}
         </div>
     );
 };
