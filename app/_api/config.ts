@@ -42,12 +42,14 @@ const fetchData = async <T, U>(
 
     if (!isOk) {
       const error = data as {
-        code: number;
-        message: string;
+        error: {
+          message: string;
+          rawError: string[];
+        };
       };
-      toast.error(error.message);
+      toast.error(error.error.message);
       if (process.env.NODE_ENV === "development") {
-        if (error.code === 401) {
+        if (status === 401) {
           redirectUnauthorized();
         }
       }
