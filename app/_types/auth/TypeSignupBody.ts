@@ -5,7 +5,7 @@ export type TypeSignupRequest = {
   password: string;
   firstName: string;
   lastName: string;
-  company?: string;
+  companyName?: string;
 };
 
 export type TypeSignupResponse = {

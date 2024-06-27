@@ -27,7 +27,7 @@ const ForgotPasswordForm = ({
       >
         <Form.Item
           name="email"
-          label="Email"
+          label="Enter your email"
           rules={[
             {
               type: "email",
