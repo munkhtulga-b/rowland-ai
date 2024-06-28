@@ -36,6 +36,7 @@ const SessionHomePage = () => {
         },
         {
           id: 3,
+          is_new_session: true,
           question: promptValue,
           message: ".",
           user: "BOT",

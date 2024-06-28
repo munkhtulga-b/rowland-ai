@@ -11,6 +11,7 @@ import _ from "lodash";
 import { useParams, useRouter } from "next/navigation";
 import utc from "dayjs/plugin/utc";
 import Image from "next/image";
+import { useNewSessionStore } from "@/app/_store/new-session-store";
 
 dayjs.extend(utc);
 
@@ -19,11 +20,25 @@ const SessionSideBar = () => {
   const params = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [history, setHistory] = useState<TypeSortedHistoryItem[]>([]);
+  const [history, setHistory] = useState<TypeHistoryItem[]>([]);
+  const [groupedHistory, setGroupedHistory] = useState<TypeSortedHistoryItem[]>(
+    []
+  );
+
+  const getNewSession = useNewSessionStore((state) => state.getSession());
 
   useEffect(() => {
     fetchHistory();
   }, []);
+
+  useEffect(() => {
+    if (getNewSession?.history) {
+      const shallow = [...history];
+      shallow.push(getNewSession.history);
+      setHistory(shallow);
+      sortHistory(shallow);
+    }
+  }, [getNewSession]);
 
   const fetchHistory = async () => {
     setIsLoading(true);
@@ -32,6 +47,7 @@ const SessionSideBar = () => {
       sortType: "desc",
     });
     if (isOk) {
+      setHistory(data);
       sortHistory(data);
     }
     setIsLoading(false);
@@ -83,7 +99,7 @@ const SessionSideBar = () => {
         items: grouped[key],
       });
     });
-    setHistory(result);
+    setGroupedHistory(result);
   };
 
   return (
@@ -91,10 +107,10 @@ const SessionSideBar = () => {
       <div className="tw-bg-grayLight tw-rounded-[26px] tw-pl-10 tw-py-10 tw-w-full tw-h-full tw-relative">
         {!isLoading ? (
           <>
-            {history.length ? (
+            {groupedHistory.length ? (
               <>
                 <ul className="tw-h-full tw-flex tw-flex-col tw-gap-4 tw-pr-10 tw-overflow-y-auto tw-overflow-x-clip tw-pb-[60px]">
-                  {history.map((group) => (
+                  {groupedHistory.map((group) => (
                     <li
                       key={group.title}
                       className="tw-flex tw-flex-col tw-gap-2 tw-m-0"

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HistoryOutlined, MessageOutlined } from "@ant-design/icons";
+import { HistoryOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
 import { useRouter } from "next/navigation";
@@ -12,11 +12,11 @@ const items: MenuItem[] = [
     key: "history",
     icon: <HistoryOutlined />,
   },
-  {
-    label: "Chat bot",
-    key: "chat",
-    icon: <MessageOutlined />,
-  },
+  // {
+  //   label: "Chat bot",
+  //   key: "chat",
+  //   icon: <MessageOutlined />,
+  // },
 ];
 
 const AdminSideBar = () => {
