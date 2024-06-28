@@ -145,7 +145,7 @@ const SessionSideBar = () => {
           className="tw-bg-grayLight tw-absolute tw-left-6 tw-right-6 tw-bottom-10 tw-p-2 tw-rounded-lg tw-cursor-pointer hover:tw-bg-grayMedium tw-transition-all tw-duration-200"
           onClick={() => router.push("/")}
         >
-          <section className="tw-flex tw-justify-start tw-items-center tw-gap-3">
+          <section className="tw-flex tw-justify-center tw-items-center tw-gap-3">
             <Image
               src="/assets/chat/new-chat-icon.svg"
               alt="new-chat"
