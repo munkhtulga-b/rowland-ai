@@ -4,4 +4,7 @@ export type TypeResetPasswordRequest = {
 
 export type TypeResetPasswordResponse = {
   success: boolean;
+  error: {
+    message: string;
+  }
 };

@@ -1,9 +1,9 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import SessionNavBar from "../_components/session/NavBar";
-import { useWindowWidth } from "../_utils/custom-hooks";
-import AdminSideBar from "../_components/admin/AdminSideBar";
+import SessionNavBar from "../../_components/session/NavBar";
+import { useWindowWidth } from "../../_utils/custom-hooks";
+import AdminSideBar from "../../_components/admin/AdminSideBar";
 
 const SessionLayout = ({ children }: { children: React.ReactNode }) => {
   const [isMounted, setIsMounted] = useState(false);

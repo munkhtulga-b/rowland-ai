@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { redirectUnauthorized } from "./actions";
 
 const fetchData = async <T, U>(
@@ -41,13 +41,13 @@ const fetchData = async <T, U>(
     const data = (await response.json()) as T;
 
     if (!isOk) {
-      const error = data as {
-        error: {
-          message: string;
-          rawError: string[];
-        };
-      };
-      toast.error(error.error.message);
+      // const error = data as {
+      //   error: {
+      //     message: string;
+      //     rawError: string[];
+      //   };
+      // };
+      // toast.error(error.error.message);
       if (status === 401) {
         redirectUnauthorized();
       }

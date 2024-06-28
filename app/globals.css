@@ -40,3 +40,7 @@ li:not([class]) {
 .ping-animation {
   animation: ping 1s infinite steps(1);
 }
+
+.ant-notification-notice-message {
+  margin-bottom: 0 !important;
+}

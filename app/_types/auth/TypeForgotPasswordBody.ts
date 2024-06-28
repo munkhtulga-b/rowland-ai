@@ -4,4 +4,7 @@ export type TypeForgotPasswordRequest = {
 
 export type TypeForgotPasswordResponse = {
   success: boolean;
+  error: {
+    message: string;
+  }
 };
