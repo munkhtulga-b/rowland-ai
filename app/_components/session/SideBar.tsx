@@ -96,7 +96,7 @@ const SessionSideBar = () => {
     Object.keys(grouped).forEach((key) => {
       result.push({
         title: key,
-        items: grouped[key],
+        items: _.sortBy(grouped[key], "created_at"),
       });
     });
     setGroupedHistory(result);
