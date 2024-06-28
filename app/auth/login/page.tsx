@@ -8,11 +8,20 @@ import $api from "@/app/_api";
 import { TypeLoginRequest } from "@/app/_types/auth/TypeLoginBody";
 import { useUserStore } from "@/app/_store/user-store";
 import _EEnumUserTypes from "@/app/_enums/EEnumUserTypes";
+import { notification } from "antd";
 
 const LoginPage = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [api, _contextHolder] = notification.useNotification();
+  const openNotification = (message: string) => {
+    api.error({
+      message,
+      style: {
+        marginBottom: 0,
+      },
+    });
+  };
   const setUser = useUserStore((state) => state.setUser);
 
   const onLogin = async (params: TypeLoginRequest) => {
@@ -34,12 +43,14 @@ const LoginPage = () => {
       }
       router.push(data.user.role === "USER" ? "/chat" : "/admin/history");
     } else {
+      openNotification(data.error.message);
       setIsLoading(false);
     }
   };
 
   return (
     <>
+      {_contextHolder}
       <div className="tw-flex tw-flex-col tw-gap-8">
         <section className="tw-flex tw-justify-center">
           <span className="tw-text-3xl tw-font-medium">Log in</span>

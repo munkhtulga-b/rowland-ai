@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { HistoryOutlined } from "@ant-design/icons";
+import { HistoryOutlined, LeftOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Menu } from "antd";
+import { Menu, Button } from "antd";
 import { useRouter } from "next/navigation";
 
 type MenuItem = Required<MenuProps>["items"][number];
@@ -29,11 +29,11 @@ const AdminSideBar = () => {
     setCurrent(e.key);
   };
 
-  const [collapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
 
-  // const toggleCollapsed = () => {
-  //     setCollapsed(!collapsed);
-  // };
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
   // border-inline-end
   return (
     <div
@@ -52,15 +52,15 @@ const AdminSideBar = () => {
         }}
         className="tw-transition-none"
       />
-      {/* <Button 
-                onClick={toggleCollapsed} 
-                style={{
-                    height: 50,
-                    width: 50,
-                    transform: `rotate(${collapsed ? '180deg' : '0'})`
-                }} 
-                icon={<LeftOutlined />} 
-            /> */}
+      <Button
+        onClick={toggleCollapsed}
+        style={{
+          height: 50,
+          width: 50,
+          transform: `rotate(${collapsed ? "180deg" : "0"})`,
+        }}
+        icon={<LeftOutlined />}
+      />
     </div>
   );
 };
