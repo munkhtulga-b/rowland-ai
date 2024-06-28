@@ -17,6 +17,7 @@ import $api from "@/app/_api";
 import ChatFeedback from "./ChatFeedback";
 import { notification } from "antd";
 import type { NotificationArgsProps } from "antd";
+import { useNewSessionStore } from "@/app/_store/new-session-store";
 
 type NotificationPlacement = NotificationArgsProps["placement"];
 
@@ -35,8 +36,11 @@ const ChatBubble = ({
   const isInitialMount = useRef(true);
   const user = Cookies.get("user");
   const [api, contextHolder] = notification.useNotification();
+
   const [streamMessage, setStreamMessage] = useState("");
   const [answerId, setAnswerId] = useState<number | null>(null);
+  const setNewSession = useNewSessionStore((state) => state.setSession);
+
   const [sentFeedback, setSentFeedback] = useState<
     _EEnumChatFeedback._LIKE | _EEnumChatFeedback._DISLIKE | null
   >(null);
@@ -129,6 +133,7 @@ const ChatBubble = ({
     if (resp.body) {
       setStreamMessage("");
       const reader = resp.body.getReader();
+      let text = "";
       const stream = new Readable({
         async read() {
           const { done, value } = await reader.read();
@@ -136,6 +141,18 @@ const ChatBubble = ({
             scrollToBottom();
             this.push(null);
             setIsStreaming(false);
+            if (chat.is_new_session) {
+              setNewSession({
+                id: sessionId,
+                session: null,
+                history: {
+                  id: sessionId,
+                  session_id: sessionId,
+                  summary: text,
+                  created_at: dayjs().format("YYYY-MM-DD"),
+                },
+              });
+            }
           } else {
             this.push(Buffer.from(value));
             const stringValue = Buffer.from(value).toString("utf-8");
@@ -151,6 +168,7 @@ const ChatBubble = ({
                 }
               }
             } else {
+              text += stringValue;
               setStreamMessage(
                 (prev) => prev + Buffer.from(value).toString("utf-8")
               );
