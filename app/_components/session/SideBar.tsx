@@ -20,7 +20,7 @@ const SessionSideBar = () => {
   const params = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [history, setHistory] = useState<TypeHistoryItem[]>([]);
+  // const [history, setHistory] = useState<TypeHistoryItem[]>([]);
   const [groupedHistory, setGroupedHistory] = useState<TypeSortedHistoryItem[]>(
     []
   );
@@ -33,10 +33,7 @@ const SessionSideBar = () => {
 
   useEffect(() => {
     if (getNewSession?.history) {
-      const shallow = [...history];
-      shallow.push(getNewSession.history);
-      setHistory(shallow);
-      sortHistory(shallow);
+      fetchHistory();
     }
   }, [getNewSession]);
 
@@ -47,7 +44,7 @@ const SessionSideBar = () => {
       sortType: "desc",
     });
     if (isOk) {
-      setHistory(data);
+      // setHistory(data);
       sortHistory(data);
     }
     setIsLoading(false);
@@ -96,7 +93,7 @@ const SessionSideBar = () => {
     Object.keys(grouped).forEach((key) => {
       result.push({
         title: key,
-        items: _.sortBy(grouped[key], "created_at"),
+        items: grouped[key],
       });
     });
     setGroupedHistory(result);
