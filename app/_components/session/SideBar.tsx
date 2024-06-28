@@ -156,7 +156,7 @@ const SessionSideBar = () => {
               height={0}
               style={{ height: "auto", width: "auto" }}
             />
-            <span className="tw-text-primaryGray tw-text-lg">New chat</span>
+            <span className="tw-text-primaryGray tw-text-lg">New session</span>
           </section>
         </div>
       </div>
