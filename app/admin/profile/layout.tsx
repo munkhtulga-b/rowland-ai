@@ -21,7 +21,10 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {isMounted ? (
-        <div style={{ minHeight: "100svh" }} className="tw-bg-white tw-flex tw-flex-col">
+        <div
+          style={{ minHeight: "100svh" }}
+          className="tw-bg-white tw-flex tw-flex-col"
+        >
           <section className="tw-fixed tw-top-0 tw-left-0 tw-right-0 tw-z-[999]">
             <ProfileNavBar height={navbarHeight} />
           </section>
@@ -35,7 +38,7 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
             }}
             className="tw-flex-1 tw-flex tw-justify-center tw-gap-10"
           >
-            <div className="tw-flex tw-items-center" >
+            <div className="tw-flex">
               <Suspense fallback={<></>}>{children}</Suspense>
             </div>
           </section>

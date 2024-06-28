@@ -13,6 +13,9 @@ export type TypeProfileUpdateResponse = {
     is_email_verified: boolean;
     is_subscribed_email: boolean;
     role: string;
+    error: {
+        message: string;
+    }
 }
 
 export type TypeChangePassword = {

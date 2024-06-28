@@ -20,4 +20,7 @@ export type TypeSignupResponse = {
     };
   };
   user: TypeUser;
+  error: {
+    message: string;
+  }
 };

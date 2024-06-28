@@ -1,9 +1,11 @@
 import { create } from "zustand";
 import { TypePromtChat } from "../_types/chat/TypeChat";
+import { TypeHistoryItem } from "../_types/chat/TypeHistoryItem";
 
 type TypeNewSession = {
   id: string;
   session: TypePromtChat[] | null;
+  history?: TypeHistoryItem;
 };
 
 interface TypeNewSessionState {

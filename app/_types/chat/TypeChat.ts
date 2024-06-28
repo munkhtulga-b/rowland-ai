@@ -20,6 +20,7 @@ export type TypeChatbotResponse = {
 
 export type TypePromtChat = {
   id: string | number;
+  is_new_session?: boolean;
   question?: string;
   message: string;
   user: string;

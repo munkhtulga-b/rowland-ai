@@ -17,4 +17,7 @@ export type TypeLoginResponse = {
     };
   };
   user: TypeUser;
+  error: {
+    message: string;
+  }
 };

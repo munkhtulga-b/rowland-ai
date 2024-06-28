@@ -1,9 +1,9 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import SessionNavBar from "../_components/session/NavBar";
-import { useWindowWidth } from "../_utils/custom-hooks";
-import AdminSideBar from "../_components/admin/AdminSideBar";
+import SessionNavBar from "../../_components/session/NavBar";
+import { useWindowWidth } from "../../_utils/custom-hooks";
+import AdminSideBar from "../../_components/admin/AdminSideBar";
 
 const SessionLayout = ({ children }: { children: React.ReactNode }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -25,7 +25,10 @@ const SessionLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {isMounted ? (
-        <div style={{ minHeight: "100svh" }} className="tw-bg-grayLight tw-flex tw-flex-col">
+        <div
+          style={{ minHeight: "100svh" }}
+          className="tw-bg-grayLight tw-flex tw-flex-col"
+        >
           <section className="tw-fixed tw-top-0 tw-left-0 tw-right-0 tw-z-[999]">
             <SessionNavBar height={navbarHeight} />
           </section>

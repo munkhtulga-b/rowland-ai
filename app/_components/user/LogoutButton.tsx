@@ -12,7 +12,7 @@ const LogoutButton = () => {
 
     const { isOk } = await $api.auth.logout();
     if (isOk) {
-      router.push("/auth/login");
+      router.push("/");
     }
   };
 
