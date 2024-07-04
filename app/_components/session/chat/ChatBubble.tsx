@@ -145,9 +145,10 @@ const ChatBubble = ({
         credentials: "include",
       });
       if (accessResponse.ok && accessResponse.status !== 401) {
-        window.location.reload();
+        
       } else {
         redirectUnauthorized();
+        window.location.reload();
       }
       return;
     }
