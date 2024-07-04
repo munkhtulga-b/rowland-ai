@@ -60,7 +60,7 @@ const fetchData = async <T, U>(
               "x-user-type": "1",
             },
             body: JSON.stringify({ refreshToken: refreshToken }),
-            credentials: "include",
+            credentials: process.env.NODE_ENV === "development" ? "omit" : "include",
           });
           if (accessResponse.ok && accessResponse.status !== 401) {
             window.location.reload();
