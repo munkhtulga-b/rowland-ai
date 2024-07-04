@@ -122,8 +122,10 @@ const ChatBubble = ({
     let response = await fetchProtectedResource();
 
     if (response.status === 401) {
-      if (!refreshToken) 
+      if (!refreshToken){
+        redirectUnauthorized();
         return false;
+      }
       
       await fetch(`${endpoint}auth/refresh-tokens`, {
         method: "POST",
