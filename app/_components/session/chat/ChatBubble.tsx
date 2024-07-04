@@ -121,21 +121,20 @@ const ChatBubble = ({
     let response = await fetchProtectedResource();
 
     if (response.status === 401) {
-      let data = {} as any;
-      
+      let _refreshToken;
       if (process.env.NODE_ENV === "development") {
         const refreshToken = Cookies.get("refresh_token");
         if (!refreshToken) {
           redirectUnauthorized();
           return false;
         }
-        data.refreshToken = refreshToken;
+        _refreshToken = refreshToken;
       }
 
       await fetch(`${endpoint}auth/refresh-tokens`, {
         method: "POST",
         headers: requestHeaders,
-        body: data,
+        body: JSON.stringify({ refreshToken: _refreshToken }),
         credentials:
           process.env.NODE_ENV === "development" ? "omit" : "include",
       });
