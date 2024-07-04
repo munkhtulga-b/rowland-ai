@@ -144,9 +144,7 @@ const ChatBubble = ({
         body: JSON.stringify({ refreshToken: refreshToken }),
         credentials: "include",
       });
-      if (accessResponse.ok && accessResponse.status !== 401) {
-        
-      } else {
+      if (!accessResponse.ok || accessResponse.status === 401) {
         redirectUnauthorized();
         window.location.reload();
       }
