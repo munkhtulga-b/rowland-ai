@@ -62,18 +62,19 @@ const fetchData = async <T, U>(
         const accessResponse = await fetch(`${baseURL}auth/refresh-tokens`, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            "x-user-type": "1",
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({ refreshToken: _refreshToken }),
           credentials:
             process.env.NODE_ENV === "development" ? "omit" : "include",
         });
+
         if (accessResponse.ok && accessResponse.status !== 401) {
           window.location.reload();
         } else {
           redirectUnauthorized();
         }
+        
       }
     }
 
