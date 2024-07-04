@@ -49,14 +49,14 @@ const fetchData = async <T, U>(
       // };
       // toast.error(error.error.message);
       if (status === 401) {
-        let data = {} as any;
+        let _refreshToken;
 
         if (process.env.NODE_ENV === "development") {
           const refreshToken = Cookies.get("refresh_token");
           if (!refreshToken) {
             redirectUnauthorized();
           }
-          data.refreshToken = refreshToken;
+          _refreshToken = refreshToken;
         }
         
         const accessResponse = await fetch(`${baseURL}auth/refresh-tokens`, {
@@ -65,7 +65,7 @@ const fetchData = async <T, U>(
             "Content-Type": "application/json",
             "x-user-type": "1",
           },
-          body: data,
+          body: JSON.stringify({ refreshToken: _refreshToken }),
           credentials:
             process.env.NODE_ENV === "development" ? "omit" : "include",
         });
