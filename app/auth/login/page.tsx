@@ -29,6 +29,8 @@ const LoginPage = () => {
     const { isOk, data } = await $api.auth.login(params);
     if (isOk) {
       setUser(data.user);
+      console.log(data.user)
+      console.log("Session 1 buyu login")
       Cookies.set("session", "true");
       Cookies.set(
         "x-user-type",

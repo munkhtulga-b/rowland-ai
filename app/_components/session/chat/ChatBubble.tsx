@@ -142,7 +142,6 @@ const ChatBubble = ({
       response = await fetchProtectedResource();
 
       if (response.status === 200) return true;
-
       redirectUnauthorized();
       return false;
     }
