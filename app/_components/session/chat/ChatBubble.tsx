@@ -99,10 +99,61 @@ const ChatBubble = ({
       placement,
     });
   };
+  const fetchProtectedResource = async () => {
+    const requestHeaders = {
+      "Content-Type": "application/json",
+    };
+    const endpoint = process.env.NEXT_PUBLIC_BASE_API_URL;
+    const response = await fetch(`${endpoint}auth/protected`, {
+      method: "GET",
+      headers: requestHeaders,
+      credentials: process.env.NODE_ENV === "development" ? "omit" : "include",
+    });
 
+    return response;
+  };
+  const checkAuthorization = async () => {
+    const requestHeaders = {
+      "Content-Type": "application/json",
+    };
+    const endpoint = process.env.NEXT_PUBLIC_BASE_API_URL;
+    const refreshToken = Cookies.get("refresh_token");
+
+    let response = await fetchProtectedResource();
+
+    if (response.status === 401) {
+      if (!refreshToken) {
+        redirectUnauthorized();
+        return false;
+      }
+
+      await fetch(`${endpoint}auth/refresh-tokens`, {
+        method: "POST",
+        headers: requestHeaders,
+        body: JSON.stringify({ refreshToken }),
+        credentials: "include",
+      });
+
+      response = await fetchProtectedResource();
+
+      if (response.status === 401) {
+        redirectUnauthorized();
+        return false;
+      }
+    }
+
+    return true;
+  };
   const streamChat = async () => {
     if (!chat.question || isStreaming) return;
+    const isOk = await checkAuthorization();
 
+    if (isOk === false) {
+      window.location.replace("/auth/login");
+      window.location.reload();
+      return;
+    }
+    console.log("STREAMING");
     setIsStreaming(true);
     const body = {
       question: chat.question,
@@ -130,25 +181,6 @@ const ChatBubble = ({
       headers: requestHeaders,
       credentials: process.env.NODE_ENV === "development" ? "omit" : "include",
     });
-
-    if (resp.status === 401) {
-      const baseURL = process.env.NEXT_PUBLIC_BASE_API_URL;
-      setIsStreaming(false);
-      const refreshToken = Cookies.get("refresh_token");
-      const accessResponse = await fetch(`${baseURL}auth/refresh-tokens`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-user-type": "1",
-        },
-        body: JSON.stringify({ refreshToken: refreshToken }),
-        credentials: "include",
-      });
-      if (!accessResponse.ok || accessResponse.status === 401) {
-        redirectUnauthorized();
-        window.location.reload();
-      }
-    }
 
     if (resp.body) {
       setStreamMessage("");

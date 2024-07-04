@@ -37,8 +37,19 @@ const LoginPage = () => {
           : _EEnumUserTypes._ADMIN
       );
       if (process.env.NODE_ENV === "development") {
+        const currentDate = new Date();
+        const expire_date1= new Date(data.tokens.access.expires);
+        const expire_date2= new Date(data.tokens.refresh.expires);
+        const diff1 = expire_date1.getTime() - currentDate.getTime();
+        const diff2 = expire_date2.getTime() - currentDate.getTime();
+        const access_expire = diff1 / ( 1000 * 60 * 60 * 24);
+        const refresh_expire = diff2 / ( 1000 * 60 * 60 * 24);
+
         Cookies.set("token", data.tokens.access.token, {
-          expires: new Date(data.tokens.access.expires),
+          expires: access_expire
+        });
+        Cookies.set("rtoken", data.tokens.refresh.token, {
+          expires: refresh_expire
         });
       }
       router.push(data.user.role === "USER" ? "/chat" : "/admin/history");
