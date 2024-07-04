@@ -149,8 +149,6 @@ const ChatBubble = ({
     const isOk = await checkAuthorization();
 
     if (isOk === false) {
-      window.location.replace("/auth/login");
-      window.location.reload();
       return;
     }
     console.log("STREAMING");
