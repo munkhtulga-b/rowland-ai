@@ -18,6 +18,7 @@ import ChatFeedback from "./ChatFeedback";
 import { notification } from "antd";
 import type { NotificationArgsProps } from "antd";
 import { useNewSessionStore } from "@/app/_store/new-session-store";
+import { redirectUnauthorized } from "@/app/_api/actions";
 
 type NotificationPlacement = NotificationArgsProps["placement"];
 
@@ -129,6 +130,27 @@ const ChatBubble = ({
       headers: requestHeaders,
       credentials: process.env.NODE_ENV === "development" ? "omit" : "include",
     });
+
+    if (resp.status === 401) {
+      const baseURL = process.env.NEXT_PUBLIC_BASE_API_URL;
+      setIsStreaming(false);
+      const refreshToken = Cookies.get("refresh_token");
+      const accessResponse = await fetch(`${baseURL}auth/refresh-tokens`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-user-type": "1",
+        },
+        body: JSON.stringify({ refreshToken: refreshToken }),
+        credentials: "include",
+      });
+      if (accessResponse.ok && accessResponse.status !== 401) {
+        window.location.reload();
+      } else {
+        redirectUnauthorized();
+      }
+      return;
+    }
 
     if (resp.body) {
       setStreamMessage("");
