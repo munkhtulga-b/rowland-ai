@@ -49,24 +49,30 @@ const fetchData = async <T, U>(
       // };
       // toast.error(error.error.message);
       if (status === 401) {
-        const refreshToken = Cookies.get("refresh_token");
-        if (!refreshToken) {
-          redirectUnauthorized();
-        } else {
-          const accessResponse = await fetch(`${baseURL}auth/refresh-tokens`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "x-user-type": "1",
-            },
-            body: JSON.stringify({ refreshToken: refreshToken }),
-            credentials: process.env.NODE_ENV === "development" ? "omit" : "include",
-          });
-          if (accessResponse.ok && accessResponse.status !== 401) {
-            window.location.reload();
-          } else {
+        let data = {} as any;
+
+        if (process.env.NODE_ENV === "development") {
+          const refreshToken = Cookies.get("refresh_token");
+          if (!refreshToken) {
             redirectUnauthorized();
           }
+          data.refreshToken = refreshToken;
+        }
+        
+        const accessResponse = await fetch(`${baseURL}auth/refresh-tokens`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-user-type": "1",
+          },
+          body: data,
+          credentials:
+            process.env.NODE_ENV === "development" ? "omit" : "include",
+        });
+        if (accessResponse.ok && accessResponse.status !== 401) {
+          window.location.reload();
+        } else {
+          redirectUnauthorized();
         }
       }
     }
