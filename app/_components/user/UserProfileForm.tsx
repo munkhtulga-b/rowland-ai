@@ -46,6 +46,7 @@ const UserProfileForm = ({ user }: { user: TypeUser }) => {
     if (isOk) {
       setUser(data);
       Cookies.set("session", "true");
+      console.log("Session 2 buyu user data update")
       Cookies.set(
         "x-user-type",
         data.role === "USER" ? _EEnumUserTypes._USER : _EEnumUserTypes._ADMIN
