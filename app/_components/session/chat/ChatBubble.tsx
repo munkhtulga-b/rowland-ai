@@ -148,7 +148,6 @@ const ChatBubble = ({
         redirectUnauthorized();
         window.location.reload();
       }
-      return;
     }
 
     if (resp.body) {
