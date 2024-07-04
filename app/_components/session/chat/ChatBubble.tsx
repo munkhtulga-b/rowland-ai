@@ -117,28 +117,33 @@ const ChatBubble = ({
       "Content-Type": "application/json",
     };
     const endpoint = process.env.NEXT_PUBLIC_BASE_API_URL;
-    const refreshToken = Cookies.get("refresh_token");
 
     let response = await fetchProtectedResource();
 
     if (response.status === 401) {
-      if (!refreshToken){
-        redirectUnauthorized();
-        return false;
-      }
+      let data = {} as any;
       
+      if (process.env.NODE_ENV === "development") {
+        const refreshToken = Cookies.get("refresh_token");
+        if (!refreshToken) {
+          redirectUnauthorized();
+          return false;
+        }
+        data.refreshToken = refreshToken;
+      }
+
       await fetch(`${endpoint}auth/refresh-tokens`, {
         method: "POST",
         headers: requestHeaders,
-        body: JSON.stringify({ refreshToken }),
-        credentials: process.env.NODE_ENV === "development" ? "omit" : "include",
+        body: data,
+        credentials:
+          process.env.NODE_ENV === "development" ? "omit" : "include",
       });
 
       response = await fetchProtectedResource();
 
-      if (response.status === 200) 
-        return true;
-      
+      if (response.status === 200) return true;
+
       redirectUnauthorized();
       return false;
     }
